@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en" data-wf-page="63611854869623d1453c94a2">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/plc-songtools.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./css/playlisterclub.css">
+    <style>
+        .st-slide-nav .w-slider-dot {
+            width: 86px;
+            height: 66px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #242424;
+            --round-corner: 16px;
+        }
+
+        .st-slide-nav .w-slider-dot .w-active,
+        .st-slide-nav .w-slider-dot:hover {
+            background: #242424;
+        }
+    </style>
+    <style>
+        .st-slide-nav {
+            left: -12px;
+        }
+
+        .progressx,
+        .st-slide-nav .w-slider-dot,
+        .st-slide-nav .w-slider-dot.w-active {
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot.progressx:nth-child(1) {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot.progressx:first-child {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot:first-child {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:first-child.w-active {
+            background-image: url(img/playlister-club/songfly-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(1).w-active {
+            background-image: url(img/playlister-club/songfly-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(2) {
+            background-image: url(img/playlister-club/songblog-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(2).w-active {
+            background-image: url(img/playlister-club/songblog-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(3) {
+            background-image: url(img/playlister-club/songpage-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(3).w-active {
+            background-image: url(img/playlister-club/songpage-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(4) {
+            background-image: url(img/playlister-club/songfolder-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(4).w-active {
+            background-image: url(img/playlister-club/songfolder-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(5) {
+            background-image: url(img/playlister-club/pulse-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(5).w-active {
+            background-image: url(img/playlister-club/pulse-active-icon.svg);
+        }
+
+        @media screen and (max-width:600px) {
+            .st-slide-nav .w-slider-dot {
+                width: 66px;
+                height: 50px;
+                border-radius: 9px;
+                --round-corner: 9px;
+            }
+        }
+    </style>
+    <style>
+        .progressx svg {
+            display: none;
+        }
+
+        .progressx.w-active svg {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        rect {
+            width: -webkit-calc(100% - 4px);
+            width: -moz-calc(100% - 4px);
+            width: calc(100% - 4px);
+            height: -webkit-calc(100% - 4px);
+            height: -moz-calc(100% - 4px);
+            height: calc(100% - 4px);
+            stroke: #00CCBC;
+            stroke-dasharray: var(--dashlength), var(--dashlength);
+            stroke-width: 2;
+            fill: none;
+            rx: var(--round-corner);
+        }
+
+        .progressx.w-active rect {
+            animation: dash 6s linear forwards;
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: var(--dashlength);
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            setTimeout(() => {
+                let sliderDots = document.getElementsByClassName('w-slider-dot')
+
+                for (const dot of sliderDots) {
+                    dot.classList.add("progressx")
+                    dot.insertAdjacentHTML('afterbegin',
+                        `<svg preserveAspectRatio="xMaxYMax meet" viewBox="0 0 86 66" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" rx="16"/>
+                 </svg>`
+                    )
+                    var progress = document.querySelector('.progressx.w-active rect')
+                    dot.style.setProperty('--dashlength', progress.getTotalLength())
+                }
+            }, 100)
+        }
+    </script>
+    <style>
+        a {
+            background-color: transparent;
+        }
+
+
+
+        .section-content {
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 3;
+        }
+
+        .brand {
+            text-indent: -99999px;
+            background-repeat: no-repeat;
+            background-position: 0;
+            background-size: contain;
+            background-image: url(https://playlister.club/assets/img/logo.svg);
+            height: 42px;
+            min-width: 200px;
+        }
+
+        .header .brand,
+        .header .main {
+            width: auto;
+        }
+
+        button {
+            padding: .75rem 1.5rem;
+            margin: 2rem .5rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            background: transparent;
+            border: 2px solid #4b4b4b;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .header .navbar-toggler {
+            /* margin: 1.25rem 0; */
+            margin: 2rem 0.5rem;
+        }
+
+        .header .navbar-nav .nav-item {
+            white-space: nowrap;
+            /* height: 80px; */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+            place-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            border: 4px solid transparent;
+            border-top-width: 1px;
+            font-weight: 500;
+            border-bottom-width: 1px;
+            -webkit-transition: all .2s ease-in;
+            transition: all .2s ease-in;
+        }
+
+        .header .nav-link {
+            display: -webkit-box !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+        }
+
+        .header .navbar-nav .nav-item:hover {
+            border: 4px solid transparent;
+            border-bottom-color: #2ec4b6;
+            background: transparent;
+        }
+
+        .header .nav-item a {
+            color: #f5f5f4 !important;
+            text-decoration: none;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-toggle {
+            color: #f5f5f4 !important;
+            text-decoration: none;
+            padding: 0 !important;
+            font-weight: 500;
+            background: none !important;
+            border: 0;
+            /* margin: 0 !important; */
+            margin-right: 0.3rem !important;
+            margin-left: 0.325rem !important;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-toggle:after {
+            /* margin-left: .5em; */
+            /* vertical-align: .15em; */
+            display: inline-block;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+            margin-left: 0.5em;
+            vertical-align: 0.15em;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-menu {
+            /* background: #181818 !important; */
+            padding: .1rem;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-menu .dropdown-item {
+            padding: .72rem 1rem !important;
+            font-size: .9rem;
+            color: #eaeaea;
+            line-height: 17px !important;
+        }
+
+        @media screen and (min-width: 960px) {
+            .section-content {
+                max-width: 900px;
+                padding: 1rem;
+            }
+        }
+
+        @media screen and (min-width: 1600px) {
+            .section-content {
+                max-width: 1800px;
+                padding: 1rem 3rem;
+            }
+        }
+
+        @media screen and (max-width: 640px) {
+            /* #navbars {
+                position: fixed;
+                inset: 104px 0 0;
+                background: linear-gradient(180deg, #323232, #181818);
+                background-color: #181818 !important;
+            } */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="ui-plc-navbar-holder">
+        <div class="html-embed w-embed">
+            <div class="header px-3">
+                <div class="section-content p-0 mt-80">
+                    <nav class="navbar navbar-expand-md navbar-dark py-0" aria-label="">
+                        <div class="container-fluid p-sm-0">
+                            <a href="index.html" class="navbar-brand brand">Playlister.club</a>
+                            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbars" aria-controls="navbarsExample04" aria-expanded="false"
+                                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                            <div class="collapse navbar-collapse" id="navbars">
+                                <ul class="navbar-nav nav-pills ms-auto m-0" id="main-navbar">
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Hero -->
+    <!-- <section class="section__club">
+        <img class="hero__img" src="./img/playlister-club/hero__img.png" alt="img">
+        <div class="container__club">
+            <div class="club">
+                <div class="club__item">
+                    <h1 class="section__title club__title">Playlisting done right!</h1>
+                    <p class="club__text">The world's leading music discovery platform and home to the largest community
+                        of independent playlisters digging for new music. </p>
+                    <div class="club__buttons">
+                        <div class="buttons__cover"></div>
+                        <button class="club__button">For Artists & Labels</button>
+                        <button class="club__button">For Playlist Curators</button>
+                    </div>
+                    <div class="club__copy">
+                        If you are ready, so are we! <a href="#">Sign up</a> to Playlister Club today
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+
+    <!-- Section Hero -->
+    <div class="ui-plc-section hero songblog-hero-header wf-section mt-80 ">
+        <div class="red-lite"></div>
+        <div class="fixed-gradient"></div>
+        <div class="device-holder">
+            <div class="price-tag"></div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1e9"
+                style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                class="slider-content _1">
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ea" style="opacity:0" class="metadata-holder">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1eb" class="cover-holder-hero"><img
+                            src="img/playlister-club/playlisting-cover.png" loading="lazy" width="127"
+                            srcset="img/playlister-club/playlisting-cover-p-500.png 500w, img/playlister-club/playlisting-cover.png 766w"
+                            sizes="127px" alt="" class="slide-cover"></div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ed" class="cover-song">No Pressure</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ef" class="cover-artist">Michael Adams</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f1" class="cover-date">September 2022</div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f3" class="fake-button-holder">
+                    <div>Add to Playlist</div>
+                </div>
+                <div class="slide-title">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f7" class="title">Michael&#x27;s perspective
+                        on
+                        &quot;No Pressure&quot;</div>
+                </div>
+            </div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f9"
+                style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                class="slider-content _2">
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fa" style="opacity:0" class="metadata-holder">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fb" class="cover-holder-hero"><img
+                            src="img/playlister-club/songfolder-cover.png" loading="lazy" width="127"
+                            srcset="img/playlister-club/songfolder-cover-p-500.png 500w, img/playlister-club/songfolder-cover.png 744w"
+                            sizes="100vw" alt="" class="slide-cover"></div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fd" class="cover-song">Where were you</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ff" class="cover-artist">Monty Clark</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb201" class="cover-date">January 2022</div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb203" class="fake-button-holder">
+                    <div>Add to Playlist</div>
+                </div>
+                <div class="slide-title">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb207" class="title">Monty&#x27;s perspective on
+                        &quot;Where were you&quot;</div>
+                </div>
+            </div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb209"
+                style="-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;display:none"
+                class="slider-content _3">
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20a" style="opacity:0" class="metadata-holder">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20b" class="cover-holder-hero"><img
+                            src="img/playlister-club/songblog-cover.png" loading="lazy" width="127"
+                            srcset="img/playlister-club/songblog-cover-p-500.png 500w, img/playlister-club/songblog-cover.png 766w"
+                            sizes="100vw" alt="" class="slide-cover"></div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20d" class="cover-song">Thanks, I Hate it</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20f" class="cover-artist">Michelle White</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb211" class="cover-date">June 2020</div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb213" class="fake-button-holder">
+                    <div>Add to Playlist</div>
+                </div>
+                <div class="slide-title">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb217" class="title">Michell&#x27;s perspective
+                        on
+                        &quot;No Pressure&quot;</div>
+                </div>
+            </div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb219"
+                style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                class="slider-content _4">
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21a" style="opacity:0" class="metadata-holder">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21b" class="cover-holder-hero"><img
+                            src="img/playlister-club/songpage-cover.png" loading="lazy" width="127"
+                            srcset="img/playlister-club/songpage-cover-p-500.png 500w, img/playlister-club/songpage-cover.png 766w"
+                            sizes="100vw" alt="" class="slide-cover"></div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21d" class="cover-song">So You Say</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21f" class="cover-artist">Christine Brown</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb221" class="cover-date">August 2019</div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb223" class="fake-button-holder">
+                    <div>Add to Playlist</div>
+                </div>
+                <div class="slide-title">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb227" class="title">Chri&#x27;s perspective on
+                        &quot;So You Say&quot;</div>
+                </div>
+            </div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb229"
+                style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                class="slider-content _5">
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22a" style="opacity:0" class="metadata-holder">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22b" class="cover-holder-hero"><img
+                            src="img/playlister-club/cover-5.png" loading="lazy" width="127"
+                            srcset="img/playlister-club/cover-5-p-500.png 500w, img/playlister-club/cover-5.png 769w"
+                            sizes="100vw" alt="" class="slide-cover"></div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22d" class="cover-song">Light At The End</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22f" class="cover-artist">Evan Young</div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb231" class="cover-date">September 2022</div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb233" class="fake-button-holder">
+                    <div>Add to Playlist</div>
+                </div>
+                <div class="slide-title">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb237" class="title">Evan&#x27;s perspective on
+                        &quot;Light At The End&quot;</div>
+                </div>
+            </div>
+            <div class="slider-holder"></div>
+        </div>
+        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb23a"
+            style="-webkit-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+            class="ui-animated-bg-1"></div>
+        <div class="ui-plc-container content-2">
+            <div class="content">
+                <div class="hero-text-container hero-title">
+                    <div class="hero-txt hero-title">Playlisting done right!</div>
+                </div>
+                <div class="hero-text-container">
+                    <div class="hero-txt hero-text">The world's leading music discovery platform and home to the
+                        largest community of independent playlisters digging for new music.
+                    </div>
+                    <div class="club__buttons">
+                        <div class="buttons__cover"></div>
+                        <button class="club__button">For Artists & Labels</button>
+                        <button class="club__button">For Playlist Curators</button>
+                    </div>
+                    <div class="club__copy">
+                        If you are ready, so are we! <a href="#">Sign up</a> to Playlister Club today
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main__content">
+        <!-- Section How -->
+        <section class="section__how">
+            <div class="container__club">
+                <div class="how">
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-1.svg" alt="img"></div>
+                        <div class="how__title">Work smarter <br>
+                            not harder!</div>
+                        <div class="how__text">Start your membership and simply activate your tracks; no uploads, no
+                            metadata, no time wasted! Your releases will be included in our Discover ecosystem, where
+                            leading curators go to find new music for their playlists. It's that simple!</div>
+                    </div>
+
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-2.svg" alt="img"></div>
+                        <div class="how__title">Be really <br>
+                            discovered!</div>
+                        <div class="how__text">Many playlisters mindlessly read through endless submission inboxes.
+                            Instead, our playlisters carefully and manually select songs that truly match their
+                            playlists and music tastes. Never have your music lost in an inbox again!</div>
+                    </div>
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-3.svg" alt="img"></div>
+                        <div class="how__title">Get more than <br>
+                            just exposure!</div>
+                        <div class="how__text">Your music is displayed on a music discovery platform and matched to
+                            playlisters specific curation and listening tastes. They can even listen, review and place
+                            your songs on their playlists directly from our platform.</div>
+                    </div>
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-4.png" alt="img"></div>
+                        <div class="how__title">Gain exclusive and real playlister data!</div>
+                        <div class="how__text">It's hard to figure out the best way to approach playlisters - they are
+                            notoriously obscure. We are here to bring security, transparency & data around this powerful
+                            group of tastemakers. We actively monitor and vet playlisters interacting in
+                            our platform.</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-5.svg" alt="img"></div>
+                        <div class="how__title">Where will your song
+                            find success?</div>
+                        <div class="how__text">Playlists are global; they can give you access to new listeners in places
+                            you would have never thought of. Let us take the guess work out of where your potential fans
+                            and connect you with thousands of playlisters around the globe today!</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-6.svg" alt="img"></div>
+                        <div class="how__title">Join a Passionate
+                            Music Community!</div>
+                        <div class="how__text">Include your music in the only lively online community tailored towards
+                            playlisters. We are home to more than 5000 of the leading independent playlisters around the
+                            world who trust us with more playlist placements than any other playlisting platform!</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Statistic -->
+        <section class="section__statistic ui-plc-section hero songblog-hero wf-section">
+            <div class="container__club">
+                <div class="statistic">
+                    <div class="statistic__item left__item">
+                        <h2 class="section__title">Our playlist numbers...</h2>
+                        <div class="statistic__text">Some <span>5674</span> playlisters with a combined follower count
+                            of <span>89,166,243</span>
+                            and more than <span>90,581</span> playlists have successfully placed <span>751,246</span>
+                            tracks </div>
+                    </div>
+                    <div class="statistic__item right__item">
+                        <div class="statistic__subtext">with membership as low as</div>
+                        <div class="statistic__price">
+                            <div class="statistic__price-item">
+                                <small>$</small>
+                                <span>40/</span>
+                            </div>
+                            <div class="statistic__price-item">month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Reviews -->
+        <section class="section__reviews">
+            <div class="container__club">
+                <div class="reviews">
+                    <h2 class="section__title title__center reviews__title">... and happy people at-a-glance!</h2>
+
+                    <div class="reviews__slider">
+                        <!-- Slider main container -->
+                        <div class="swiper swiper__reviews">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Satisfied -->
+        <div class="satisfied">
+            <h2 class="section__title title__center">Satisfied?</h2>
+            <a href="#" class="club__btn satisfied__btn">Sign Up <span>to Playlister Club</span> today!</a>
+        </div>
+
+        <!-- Section Measure -->
+        <section class="section__measure">
+            <div class="container__club">
+                <div class="measure">
+                    <div class="measure__item left__item">
+                        <h2 class="section__title measure__title">hmmm, okay how about if we just check <span>how you
+                                measure?</span></h2>
+                        <p class="measure__text">Our Playlistability Index is the most advanced metric to measure your
+                            song’s potential performance from a playlisting perspective. Using thousands of data points
+                            we collect daily, we’ve devised an engine to check your playlistability -- how playlistable
+                            your song is -- against what our playlisters are currently adding, and what other emerging
+                            artists like yourself scored.</p>
+                        <img class="measure__img-mob" src="./img/playlister-club/measure__img.png" alt="img">
+                        <a href="#" class="club__btn measure__btn">Get your playlistability</a>
+                    </div>
+                    <div class="measure__item right__item">
+                        <img src="./img/playlister-club/measure__img.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Slider 2 -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs cta">
+
+                <div class="content content-container-text">Not yet convinced?<br>Explore our music promotion <span
+                        class="hilite">ecosystem</span>‍</div>
+            </div>
+        </div>
+        <div class="ui-plc-section hero songtools-slider wf-section">
+            <div class="ui-plc-container content-2 slider">
+                <div class="songtools-logo-positioner"></div>
+                <div data-delay="6000" data-animation="cross" class="slider-3 w-slider" data-autoplay="true"
+                    data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0"
+                    data-nav-spacing="2" data-duration="500" data-infinite="true">
+                    <div class="w-slider-mask">
+                        <div class="slide w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songfly.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Music Digital Advertising made easy... <span
+                                        class="hilite">and powerful!</span></div>
+                                <div class="hero-txt hero-text">With just a few clicks, SongFly delivers breathtaking
+                                    ads on multiple channels. So, stop spending time and money trying to figure out how
+                                    digital advertising works and try us today!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songblog w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/songblog-logo.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Publish an SEO-optimized blog and engage <span
+                                        class="text-span">with your fans</span></div>
+                                <div class="hero-txt hero-text">Break your latest release, feature your journey as an
+                                    artist and keep the conversation going with a fully featured Q&amp;A blog that stays
+                                    indexed, forever!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songpage w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songpage.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">A responsive landing page to drive conversionsand
+                                    produce more streams... <span class="hilite">and fans!</span></div>
+                                <div class="hero-txt hero-text">Make it easy for fans to listen to your music on the
+                                    streaming platform of their choice or discover you on social media.</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songfolder w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songfolder.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Smart Cloud Storage for the music marketer</div>
+                                <div class="hero-txt hero-text">We don&#x27;t just store your song content, we transform
+                                    it into something engaging and unforgettable!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide playlistpulse w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-playlist-pulse.svg" loading="lazy" height="60"
+                                    alt="" class="service-logo">
+                                <div class="hero-txt hero-title">Lorem ipsum playlistpulse charts <span
+                                        class="text-span">lorem ipsum</span></div>
+                                <div class="hero-txt hero-text">Break your latest release, feature your journey as an
+                                    artist and keep the conversation going with a fully featured Q&amp;A blog that stays
+                                    indexed, forever!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                    </div>
+                    <div class="hideme w-slider-arrow-left">
+                        <div class="w-icon-slider-left"></div>
+                    </div>
+                    <div class="hideme w-slider-arrow-right">
+                        <div class="w-icon-slider-right"></div>
+                    </div>
+                    <div class="st-slide-nav w-slider-nav"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Section FAQ -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs">
+                <div class="faqs-container">
+                    <div class="faqs-title">FAQ</div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="0aab139c-f04e-c7ae-92dc-7aab2867aaa2"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage do I get? </div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="a8249597-f141-e6fe-383d-eed9f96c149a"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What about security? Are my assets safe?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="c6a89faa-4d60-c056-1494-62d33b75bd03"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage to I get?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="fb08f65d-2ff4-5844-835b-ab6e84ba302d"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What kind of ads does it create?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Our AI will create various different ad creatives with the
+                                assets you upload and use multivariate testing in order to find a winning combination
+                                for your SongFly campaign. You can view our creative guidelines webpage to get examples
+                                of the ads that will be created.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="ead46db3-9f00-f5d0-0621-0046eecdeef5"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Does my content get deleted if I cancel my membership?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Your content will be held for 1 year after you cancel your
+                                membership, in case you decide to come back. After that point if you do not re-activate
+                                your membership, they will be deleted forever.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item last w-dropdown">
+                        <div data-w-id="5d3a6809-40f2-4797-601c-c04ed73f5edf"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Why is it better than Google Drive, Dropbox, and others?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav class="dropdown-list last w-dropdown-list">
+                            <div class="faq-item-content">We believe cloud storage is not “one-size fits all.” Music
+                                creators have different needs, and we’ve created a home for your content that’s
+                                streamlined around those needs. Our dashboard has a place for your song’s audio files,
+                                press photos, promo videos, and keeps them safe, so you can easily access them from
+                                anywhere in the future. Plus; we are the only storage solution that integrates directly
+                                with your marketing platform!</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <main class="main__content active">
+        <!-- Section How -->
+        <section class="section__how">
+            <div class="container__club">
+                <div class="how">
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="76" height="62" viewBox="0 0 76 62" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.9943 0H4.99431L0 8.65757L4.99431 17.3151H14.9943L20 8.65757L14.9943 0Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M17.6059 28.3374C13.1302 28.3374 9.47656 31.9796 9.47656 36.4667C9.47656 40.9538 13.1188 44.596 17.6059 44.596C22.0816 44.596 25.7352 40.9538 25.7352 36.4667C25.7352 31.9796 22.0816 28.3374 17.6059 28.3374ZM17.6059 41.1593C15.0141 41.1593 12.9018 39.0471 12.9018 36.4553C12.9018 33.8635 15.0141 31.7513 17.6059 31.7513C20.1977 31.7513 22.3099 33.8635 22.3099 36.4553C22.3099 39.0471 20.1977 41.1593 17.6059 41.1593Z"
+                                    fill="black" />
+                                <path
+                                    d="M41.4125 28.3374C36.9368 28.3374 33.2832 31.9796 33.2832 36.4667C33.2832 40.9538 36.9254 44.596 41.4125 44.596C45.8996 44.596 49.5418 40.9538 49.5418 36.4667C49.5418 31.9796 45.8882 28.3374 41.4125 28.3374ZM41.4125 41.1593C38.8207 41.1593 36.7085 39.0471 36.7085 36.4553C36.7085 33.8635 38.8207 31.7513 41.4125 31.7513C44.0043 31.7513 46.1166 33.8635 46.1166 36.4553C46.1166 39.0471 44.0043 41.1593 41.4125 41.1593Z"
+                                    fill="black" />
+                                <path
+                                    d="M65.184 28.3374C60.7083 28.3374 57.0547 31.9796 57.0547 36.4667C57.0547 40.9538 60.6969 44.596 65.184 44.596C69.6711 44.596 73.3133 40.9538 73.3133 36.4667C73.3133 31.9796 69.6711 28.3374 65.184 28.3374ZM65.184 41.1593C62.5922 41.1593 60.48 39.0471 60.48 36.4553C60.48 33.8635 62.5922 31.7513 65.184 31.7513C67.7758 31.7513 69.888 33.8635 69.888 36.4553C69.888 39.0471 67.7758 41.1593 65.184 41.1593Z"
+                                    fill="black" />
+                                <path
+                                    d="M17.801 48.2156H16.9219C11.4529 48.2156 7 53.3535 7 59.6674C7 60.6151 7.76498 61.38 8.71264 61.38C9.6603 61.38 10.4253 60.6151 10.4253 59.6674C10.4253 55.3173 13.4053 51.6408 16.9219 51.6408H17.801C21.3176 51.6408 24.2976 55.3173 24.2976 59.6674C24.2976 60.6151 25.0626 61.38 26.0103 61.38C26.9579 61.38 27.7229 60.6151 27.7229 59.6674C27.7229 53.3535 23.27 48.2156 17.801 48.2156Z"
+                                    fill="black" />
+                                <path
+                                    d="M41.8479 48.2156H40.9687C35.4997 48.2156 31.0469 53.3535 31.0469 59.6674C31.0469 60.6151 31.8119 61.38 32.7595 61.38C33.7072 61.38 34.4721 60.6151 34.4721 59.6674C34.4721 55.3173 37.4521 51.6408 40.9687 51.6408H41.8479C45.3645 51.6408 48.3445 55.3173 48.3445 59.6674C48.3445 60.6151 49.1095 61.38 50.0571 61.38C51.0048 61.38 51.7698 60.6151 51.7698 59.6674C51.7698 53.3535 47.3169 48.2156 41.8479 48.2156Z"
+                                    fill="black" />
+                                <path
+                                    d="M65.6194 48.2156H64.7402C59.2712 48.2156 54.8184 53.3535 54.8184 59.6674C54.8184 60.6151 55.5833 61.38 56.531 61.38C57.4787 61.38 58.2436 60.6151 58.2436 59.6674C58.2436 55.3173 61.2236 51.6408 64.7402 51.6408H65.6194C69.136 51.6408 72.116 55.3173 72.116 59.6674C72.116 60.6151 72.881 61.38 73.8286 61.38C74.7763 61.38 75.5413 60.6151 75.5413 59.6674C75.5527 53.3535 71.0998 48.2156 65.6194 48.2156Z"
+                                    fill="black" />
+                                <path
+                                    d="M71.84 24.6496V11.7706C71.84 8.03707 68.803 5 65.0808 5H17.755C14.0215 5 10.9844 8.03707 10.9844 11.7706V24.6382C12.069 24.0331 13.2108 23.5764 14.4096 23.291V11.7706C14.4096 9.92097 15.9054 8.42527 17.755 8.42527H65.0808C66.9191 8.42527 68.4148 9.92097 68.4148 11.7706V23.291C69.6136 23.5878 70.7554 24.0331 71.84 24.6496Z"
+                                    fill="black" />
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Collaborate and <br>
+                            Become Influential</div>
+                        <div class="how__text">By joining Playlister Club, you collaborate with the world's leading
+                            independent curators. Every choice you make with your playlists creates huge opportunities
+                            for emerging artists.</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="79" height="63" viewBox="0 0 79 63" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.0498 5H5.0128L0 13.6896L5.0128 22.3792H15.0498L20.074 13.6896L15.0498 5Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M77.8994 58.5192C78.5646 58.2286 79 57.5746 79 56.848V1.81934C79 1.09273 78.5646 0.438777 77.8994 0.148132C77.2342 -0.142512 76.4601 0.00280995 75.928 0.511438C75.7708 0.66887 59.7213 15.9277 40.9021 15.9277H20.0632C16.1688 15.9277 13 19.1006 13 23.0001V35.6794C13 39.5789 16.1688 42.7518 20.0632 42.7518H21.5388L21.5267 43.3694C21.4178 47.8138 21.7081 58.5798 26.6306 62.5883C26.9571 62.8547 27.3562 63 27.7795 63H42.6075C43.309 63 43.9621 62.5761 44.2523 61.9222C44.5426 61.2682 44.4338 60.5053 43.95 59.9725C43.7081 59.706 38.1567 53.2634 40.2007 43.2362L40.2974 42.7518H40.7933C59.7092 42.7518 75.7708 58.0106 75.928 58.168C76.448 58.6646 77.2342 58.8099 77.8994 58.5192ZM28.481 59.3669L28.2996 59.1611C25.7598 56.1941 25.0099 49.0491 25.155 43.3452L25.1671 42.7518H36.5844L36.4634 43.4542C35.3628 50.0421 37.0803 55.2616 38.713 58.4829L39.1605 59.3669H28.481ZM44.337 35.6794C44.337 37.5807 42.801 39.1187 40.9021 39.1187H20.0632C18.1644 39.1187 16.6284 37.5686 16.6284 35.6794V23.0001C16.6284 21.0988 18.1644 19.5608 20.0632 19.5608H40.9021C42.801 19.5608 44.337 21.0988 44.337 23.0001V35.6794ZM75.3716 52.8759L74.392 52.1251C69.5058 48.3346 59.5278 41.674 47.6509 39.7121L46.8406 39.5789L47.2034 38.8402C47.6993 37.8471 47.9533 36.7814 47.9533 35.6794V23.0001C47.9533 21.898 47.6993 20.8444 47.2034 19.8393L46.8406 19.1006L47.6509 18.9674C59.5399 16.9934 69.5058 10.3449 74.392 6.55442L75.3716 5.80359V52.8759Z"
+                                    fill="black" />
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Discover <br>
+                            New Talent</div>
+                        <div class="how__text">New music is presented on a dynamic dashboard based off of your
+                            established curation tastes so you can listen, review, and even schedule songs on your
+                            playlists! No more endless submissions; work with music you really like!</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="75" height="71" viewBox="0 0 75 71" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.9378 3H4.97547L0 11.6249L4.97547 20.2498H14.9378L19.9246 11.6249L14.9378 3Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M67.8674 44.13C67.7474 44.04 67.7174 44 67.7074 44C67.7074 43.99 67.7174 43.94 67.7674 43.81C68.5474 42.05 69.1774 40.19 69.6274 38.26C70.3274 35.25 70.5574 32.05 70.2974 28.81C70.3074 27.87 70.1574 26.95 70.0074 26.07L69.9974 25.96C68.9574 19.88 66.2274 14.43 61.8874 9.76C60.0874 7.83 57.9374 6.09 55.4974 4.6C52.0174 2.47 48.2274 1.06 44.2374 0.4C43.8774 0.34 43.5174 0.31 43.1574 0.28C42.5774 0.23 42.0374 0.18 41.5174 0.02L36.8674 0L36.7674 0.14C36.7574 0.14 36.7474 0.13 36.7474 0.14C34.5474 0.23 32.2374 0.67 29.7074 1.5C23.0774 3.65 17.6574 7.66 13.5974 13.41C10.9374 17.18 9.19743 21.45 8.40743 26.1C8.15743 27.61 7.91743 29.22 8.02743 30.84C8.00743 33.67 8.28743 36.18 8.87743 38.53C10.9874 46.88 15.7674 53.4 23.0674 57.91C27.9374 60.92 33.4174 62.44 39.3574 62.44C39.4174 62.44 39.4774 62.44 39.5374 62.44C41.4874 62.43 43.4674 62.22 45.6274 61.77C45.7174 61.75 45.8574 61.72 45.8774 61.72C45.8774 61.72 45.9074 61.75 45.9474 61.84C48.4474 67.53 53.5474 70.88 59.5374 70.88C60.1374 70.88 60.7474 70.85 61.3674 70.78C68.2474 70.02 73.8774 64.04 74.1774 57.17C74.4274 51.7 72.3074 47.31 67.8674 44.13ZM45.0274 58.71C45.0374 58.77 45.0374 58.81 45.0374 58.85C45.0074 58.86 44.9774 58.86 44.9374 58.87C32.6574 61.36 20.0374 55.38 14.2374 44.34C12.4274 40.89 11.3674 37.25 11.0874 33.52C11.0374 32.87 11.0174 32.22 11.0074 31.57L10.9874 30.86C11.0574 29.38 11.1574 27.81 11.4474 26.26C11.8474 24.14 12.4674 22.04 13.3074 20.02C14.1674 17.95 15.3574 15.92 16.8474 13.99C19.0874 11.11 21.8074 8.71 24.9374 6.87C28.0474 5.05 31.2974 3.87 34.6174 3.36C36.1874 3.12 37.7374 3 39.2674 3C43.2274 3 47.0374 3.8 50.6374 5.41C54.3074 7.04 57.5174 9.38 60.1974 12.37C63.7074 16.27 65.9674 20.88 66.9274 26.06C67.0474 26.72 67.1374 27.39 67.2374 28.07L67.3674 28.97C67.6774 32.7 67.2274 36.43 66.0174 40.05C65.8474 40.56 65.6474 41.06 65.4474 41.56C65.3074 41.91 65.1674 42.27 65.0374 42.62C59.7874 40.61 54.9374 41.26 50.6374 44.54C46.0774 48.01 44.1774 52.78 45.0274 58.71ZM51.1274 48.02C53.3574 45.76 56.3274 44.52 59.4974 44.52C66.0574 44.52 71.1974 49.63 71.1974 56.16C71.1974 59.31 69.9874 62.26 67.7874 64.47C65.5874 66.68 62.6374 67.9 59.4974 67.9H59.4874C53.0074 67.9 47.8674 62.78 47.7774 56.24C47.7474 53.16 48.9374 50.24 51.1274 48.02Z"
+                                    fill="black" />
+                                <path
+                                    d="M53.5784 35.4701C53.5984 33.8001 53.5884 32.1401 53.5784 30.4701L53.5684 28.3101L53.5784 13.7801C53.5784 13.1101 53.3884 12.6301 53.0184 12.3401C52.6484 12.0501 52.1384 11.9801 51.4884 12.1401C44.9784 13.7401 38.4684 15.3501 31.9584 16.9601C30.8184 17.2401 30.4584 17.7201 30.4584 18.9301V20.1701C30.4584 22.6501 30.4584 25.1201 30.4584 27.6001C30.4584 27.7801 30.4784 27.9701 30.4984 28.1501L30.5184 39.4201C27.9984 38.0601 24.6284 38.3801 22.6084 40.2901C21.4484 41.3901 20.8384 42.8801 20.9384 44.3701C21.0384 45.8701 21.8084 47.2101 23.1084 48.1501C24.3884 49.0701 25.7484 49.5301 27.1484 49.5301C28.2084 49.5301 29.2984 49.2601 30.3784 48.7301C32.3884 47.7401 33.4584 46.1401 33.4784 44.1001C33.5084 40.3301 33.4984 36.5601 33.4784 32.8001L33.4684 28.3801C33.5484 27.5001 33.5484 27.5001 34.4684 27.3101C34.6284 27.2801 34.7884 27.2401 34.9584 27.2001L50.5184 23.3501C50.5584 23.3401 50.6084 23.3301 50.6584 23.3201C50.6584 23.3801 50.6584 23.4301 50.6584 23.4901L50.6884 28.3201L50.6784 29.1301C50.6784 29.6901 50.6684 30.2501 50.6784 30.8101C48.2084 29.5201 45.7084 29.6501 43.4184 31.1901C42.0584 32.1101 41.2084 33.5001 41.0884 35.0101C40.9684 36.5101 41.5884 38.0101 42.7784 39.1101C44.8184 41.0001 47.3284 41.4301 50.0184 40.3501C52.3084 39.4201 53.5484 37.7401 53.5784 35.4701ZM49.9884 36.9001C49.3084 37.5801 48.4184 37.9001 47.2384 37.9301C45.8484 37.8401 44.9084 37.3501 44.2984 36.3901C43.9084 35.7801 43.9284 34.6601 44.5684 34.0201C45.3684 33.2101 46.5584 32.8001 47.7784 32.9201C48.8484 33.0201 49.7584 33.5301 50.2784 34.3101C50.8684 35.2001 50.7584 36.1401 49.9884 36.9001ZM50.6584 17.3801L50.6484 18.4301C50.6384 18.9801 50.6384 19.5401 50.6684 20.0901C50.6784 20.1901 50.6584 20.2301 50.6584 20.2401C50.6484 20.2501 50.6084 20.2801 50.4584 20.3101C48.0784 20.8901 45.7084 21.4701 43.3384 22.0601L37.8684 23.4001C36.4084 23.7501 34.9484 24.1101 33.4984 24.4801C33.5184 22.9301 33.5184 21.3801 33.4984 19.8301C33.4984 19.7501 33.5084 19.7101 33.4984 19.7001C33.5084 19.6901 33.5484 19.6801 33.6184 19.6601C39.3084 18.2601 44.9884 16.8501 50.6684 15.4301C50.6384 15.9701 50.6484 16.5101 50.6484 17.0601L50.6584 17.3801ZM30.4784 44.0601C30.4884 44.6701 30.2184 45.1801 29.5984 45.7101C28.3684 46.7501 26.0384 46.7601 24.8084 45.7101C24.2184 45.2101 23.8984 44.6001 23.9084 43.9901C23.9184 43.3701 24.2484 42.7701 24.8484 42.2801C25.4884 41.7601 26.3184 41.5101 27.1584 41.5101C28.2084 41.5101 29.2584 41.9001 29.9484 42.6501C30.3284 43.0801 30.4784 43.4701 30.4784 44.0601Z"
+                                    fill="black" />
+                                <path
+                                    d="M53.6368 58.7499C53.7668 58.8699 53.7768 58.9099 53.7468 59.0599C53.6068 59.8199 53.4768 60.5899 53.3568 61.3499C53.2468 62.0399 53.1268 62.7299 53.0068 63.4199C52.9268 63.8399 52.7868 64.6299 53.4768 65.2099C54.2568 65.8399 55.0768 65.4099 55.4268 65.2299C55.7768 65.0499 56.1168 64.8699 56.4668 64.6899C57.2968 64.2599 58.1668 63.8099 58.9968 63.3299C59.4068 63.0899 59.6368 63.0899 60.0368 63.3199C60.8668 63.7999 61.7368 64.2499 62.5768 64.6899C62.9968 64.9099 63.4268 65.1299 63.8468 65.3499C64.1068 65.4899 64.3668 65.5599 64.6268 65.5599C64.9568 65.5599 65.2668 65.4499 65.5468 65.2199C65.8668 64.9599 66.2168 64.4899 66.0768 63.7099C65.9768 63.1199 65.8768 62.5399 65.7868 61.9499C65.6368 61.0099 65.4768 60.0699 65.2968 59.1399C65.2568 58.9399 65.2768 58.8799 65.4568 58.7199C66.0768 58.1299 66.6968 57.5199 67.3168 56.9299L68.4468 55.8299C68.7768 55.5099 69.1968 55.1099 69.2768 54.4499L69.2868 54.3899L69.2768 54.3299C69.1868 53.5099 68.6868 52.9899 67.8668 52.8699C67.3668 52.7999 66.8768 52.7199 66.3768 52.6499C65.3668 52.4999 64.3568 52.3399 63.3368 52.2199C63.0968 52.1899 63.0268 52.1399 62.9168 51.9099C62.5368 51.1099 62.1468 50.3099 61.7568 49.5199L61.0368 48.0499C60.8668 47.7099 60.4868 46.9199 59.5668 46.8899C59.5468 46.8899 59.5368 46.8899 59.5268 46.8899C58.5868 46.8899 58.1868 47.6999 58.0168 48.0499L57.2168 49.6699C56.8368 50.4399 56.4568 51.1999 56.0868 51.9699C55.9968 52.1499 55.9468 52.1899 55.7668 52.2199C55.0068 52.3199 54.2468 52.4299 53.4868 52.5499C52.7868 52.6599 52.0868 52.7599 51.3868 52.8599C51.0268 52.9099 50.1768 53.0199 49.8568 53.9199C49.5368 54.8099 50.1368 55.3799 50.4568 55.6999L51.5968 56.7999C52.2668 57.4199 52.9468 58.0899 53.6368 58.7499ZM62.2868 59.3199C62.4368 59.8499 62.5168 60.3999 62.5968 60.9799C62.6168 61.0999 62.6268 61.2099 62.6468 61.3299L62.2668 61.1299C61.6668 60.8199 61.0668 60.5099 60.4768 60.1899C59.8368 59.8399 59.2168 59.8499 58.5268 60.1999C58.2468 60.3399 57.9768 60.4999 57.6968 60.6499C57.2468 60.8999 56.8168 61.1399 56.3768 61.3399C56.4368 60.8099 56.5468 60.2799 56.6568 59.7299C56.7068 59.4899 56.7568 59.2499 56.7968 59.0099C56.9468 58.2099 56.7468 57.5799 56.1668 57.0299C55.5968 56.4899 55.0268 55.9399 54.4668 55.3999L54.5468 55.3899C55.2968 55.2799 56.0268 55.1599 56.7668 55.0699C57.5868 54.9699 58.1468 54.5799 58.4768 53.8599C58.7868 53.1899 59.1168 52.5199 59.4568 51.8599L59.5268 51.7299C59.8868 52.4399 60.2468 53.1499 60.5868 53.8699C60.9168 54.5899 61.4768 54.9899 62.2968 55.0799C63.0168 55.1599 63.7368 55.2699 64.4868 55.3799L64.6068 55.3999C64.1568 55.8699 63.6868 56.2799 63.2268 56.6899L63.1268 56.7799C62.5768 57.2399 61.9168 58.0199 62.2868 59.3199Z"
+                                    fill="black" />
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Get more than <br>
+                            just exposure!</div>
+                        <div class="how__text">Your music is displayed on a music discovery platform and matched to
+                            playlisters specific curation and listening tastes. They can even listen, review and place
+                            your songs on their playlists directly from our platform.</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="78" height="71" viewBox="0 0 78 71" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.8995 0.228271H4.96272L0 8.83107L4.96272 17.4339H14.8995L19.8735 8.83107L14.8995 0.228271Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M39.357 28.9049H66.8268L75.8014 38.2022V69.16H51.7203H30.5811H6.5V38.2022L15.4745 28.9049H42.9444"
+                                    stroke="black" stroke-width="3" stroke-miterlimit="10" />
+                                <path
+                                    d="M26.3613 28.3835V14.2825C26.3613 11.924 28.2853 10 30.6438 10H53.2477C55.6062 10 57.5302 11.924 57.5302 14.2825V28.9173"
+                                    stroke="black" stroke-width="3" stroke-miterlimit="10" />
+                                <path d="M6.5 50.3545H75.3793" stroke="black" stroke-width="3" stroke-miterlimit="10" />
+                                <path d="M26.3613 42.646V57.6408" stroke="black" stroke-width="3"
+                                    stroke-miterlimit="10" />
+                                <path d="M55.3086 42.646V57.6408" stroke="black" stroke-width="3"
+                                    stroke-miterlimit="10" />
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Better curation <br> tools</div>
+                        <div class="how__text">Simply put, Playlister Club gives you the most powerful tools to better
+                            manage your playlists so you can focus on what´s really important: discovering new music!
+                        </div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="88" height="75" viewBox="0 0 88 75" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.8475 5.18274H4.94541L0 13.7555L4.94541 22.3283H14.8475L19.8042 13.7555L14.8475 5.18274Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M87.9995 34.8401C87.9455 34.4193 87.8916 33.9878 87.8377 33.5671C87.719 32.6502 87.6003 31.6901 87.4385 30.7624C86.0254 22.909 82.3792 16.102 76.5862 10.5249C76.1547 10.1149 75.6801 9.94233 75.2162 9.90997C74.8171 9.92075 74.4395 10.0934 74.1482 10.417C73.4902 11.1182 73.5873 12.0783 74.3963 12.855C76.6617 15.0341 78.5927 17.4613 80.1461 20.0934H76.8451C73.9756 20.0934 71.0953 20.0934 68.2258 20.115C67.8591 20.115 67.8483 20.1042 67.7512 19.7482C66.3704 14.5378 64.5904 10.5356 62.1417 7.15913C61.5483 6.32849 60.8687 5.541 60.1999 4.78587C63.749 5.76754 67.1039 7.33174 70.1784 9.4461L70.2863 9.52161C70.3726 9.58634 70.4697 9.65107 70.5668 9.705C71.3866 10.1797 72.3036 10.0071 72.789 9.28429C73.0371 8.91751 73.1234 8.49679 73.0479 8.07608C72.9616 7.65536 72.7027 7.28859 72.3251 7.04047L71.7642 6.67369C70.7717 6.01565 69.7469 5.34682 68.6681 4.78587C57.7727 -0.866822 46.5752 -1.15809 35.3669 3.90129C35.0648 4.04153 34.8491 4.04153 34.5255 3.91207C29.6387 2.03504 24.2449 2.82253 20.0917 6.03723C15.9385 9.26271 13.8133 14.2789 14.4066 19.4678C14.6224 21.334 15.1294 23.211 15.9493 25.196C16.0571 25.4549 16.0787 25.8324 16.0032 26.1021C12.4864 38.2705 14.4821 49.5543 21.9903 59.6838L22.109 59.8349C22.7454 60.6116 23.6624 60.795 24.3851 60.2879C25.1618 59.7378 25.2805 58.7885 24.6764 57.9147L23.9536 56.8791C23.4682 56.1779 22.9828 55.4875 22.4973 54.7755C22.3894 54.6137 22.2923 54.4519 22.1845 54.2793H25.4315C28.355 54.2793 31.2676 54.2793 34.191 54.2577C34.4715 54.2577 34.4715 54.2577 34.5578 54.5705C35.9494 59.7701 37.7294 63.7723 40.1566 67.1704C40.7499 68.0011 41.4079 68.767 42.0983 69.5653C41.2569 69.3171 40.4478 69.069 39.6603 68.7886C35.464 67.2783 31.6452 64.9482 28.3118 61.8521L28.2039 61.7551C28.1284 61.6903 28.0529 61.6148 27.9774 61.5501C27.1575 60.8597 26.2298 60.8813 25.5933 61.5933C24.9892 62.2837 25.0755 63.2114 25.8199 63.9126C31.2029 68.9719 37.5676 72.1759 44.7305 73.438C45.7014 73.6106 46.6831 73.7293 47.6324 73.8479C48.0747 73.9019 48.5169 73.9558 49.024 74.0205H53.49L54.7414 73.8587C55.6799 73.7401 56.6184 73.6106 57.5569 73.4596C71.9907 71.1187 84.1483 59.4681 87.1149 45.1422C87.3522 43.9987 87.5033 42.8337 87.6435 41.7117C87.7082 41.1616 87.7837 40.6222 87.8592 40.072C87.8808 39.9642 87.9024 39.8563 87.924 39.7484L87.9779 34.9048L87.9995 34.8401ZM58.5602 7.73088C60.8687 10.5033 62.5839 13.869 64.105 18.6479C64.2452 19.101 64.3747 19.5648 64.5041 20.0287V20.0395H52.7996V3.76105C52.983 3.8042 53.1664 3.84735 53.339 3.90129C55.2268 4.51618 56.8881 5.72439 58.5602 7.73088ZM62.6702 23.2866H65.2377C65.2593 23.2866 65.2916 23.2866 65.324 23.2866C65.5829 24.84 65.8526 26.3934 66.1331 27.9899L66.3164 29.0579C66.0899 29.0363 65.8742 29.0148 65.6692 29.0148C60.297 28.8637 55.9712 30.935 52.7565 35.2068V23.2973C52.8104 23.2973 52.8643 23.2973 52.9075 23.2973L62.6702 23.2866ZM84.6769 35.5844H82.3576C80.7394 35.5844 79.1321 35.5844 77.5247 35.5952C77.2982 35.6168 77.1688 35.552 77.0393 35.3579C75.2162 32.7473 72.7782 30.8918 69.8008 29.8454C69.6174 29.7807 69.5851 29.7699 69.5527 29.4786C69.3585 28.0331 69.132 26.5983 68.9055 25.1636L68.6358 23.4592C68.625 23.4052 68.6142 23.3405 68.6142 23.2866H71.6887C74.9789 23.2866 78.2691 23.2866 81.5593 23.2758C81.7858 23.2973 81.8398 23.2973 81.9261 23.4807C83.6089 27.2888 84.569 31.3665 84.7848 35.5736C84.7308 35.5844 84.7093 35.5844 84.6769 35.5844ZM73.4686 52.9524C71.3974 56.0269 68.5711 58.7777 64.8278 61.3667C60.7393 58.4541 56.3271 54.6892 54.1373 48.961C52.422 44.4734 52.8967 40.3957 55.5397 36.8358C57.7403 33.8692 61.2355 32.1863 64.8493 32.1863C65.9065 32.1863 66.9745 32.3265 68.0317 32.6286C72.6703 33.9555 76.0576 38.0548 76.4568 42.8336C76.748 46.2425 75.7664 49.5435 73.4686 52.9524ZM52.8104 54.2793C53.1664 54.2901 53.3606 54.4195 53.6087 54.7863C55.4102 57.5479 57.8374 60.0938 61.0413 62.5533C61.1492 62.6396 61.1923 62.6828 61.2031 62.6828C61.2031 62.7044 61.1816 62.7691 61.1168 62.877C59.9949 64.8403 58.3984 67.3214 55.9819 69.1014C54.9032 69.8889 53.8892 70.3743 52.8104 70.6117V54.2793ZM63.8353 64.5598C64.9249 65.2287 65.9065 64.5383 66.5753 64.0636L66.7372 63.9449C70.858 61.097 74.008 57.9902 76.3489 54.4411C76.3813 54.3871 76.4891 54.3116 76.5107 54.3116C77.6003 54.2901 78.6898 54.2901 79.8549 54.2901H80.1245C78.5172 57.0409 76.5107 59.522 74.0296 61.8521C70.1892 65.4552 65.1406 68.26 60.2323 69.576C61.5591 68.1629 62.7134 66.5555 63.8353 64.5598ZM78.5819 51.0754H78.1612C79.9735 46.7388 80.2001 42.715 78.8516 38.8423H84.7632C84.7524 39.0149 84.7308 39.1982 84.72 39.3708C84.6553 40.1691 84.6014 40.9566 84.4935 41.7441C84.0728 44.8833 83.2098 47.9362 81.9369 50.838C81.829 51.0861 81.7966 51.1077 81.5485 51.0969C80.9552 51.0862 80.3619 51.0754 79.7578 51.0754C79.3694 51.0646 78.9811 51.0754 78.5819 51.0754ZM49.5094 54.3224V70.6009C49.2181 70.5254 48.9269 70.4498 48.6572 70.3528C46.7801 69.6624 45.1404 68.3786 43.4899 66.3074C41.203 63.4379 38.5277 57.7421 37.7941 54.3224H49.5094ZM49.4986 38.8638V51.0322H36.9958C36.1652 47.2566 35.7121 43.2652 35.6042 38.8638H49.4986ZM18.3872 29.3708C19.9407 31.5283 21.8608 33.5563 24.2125 35.5412H17.4703L18.3872 29.3708ZM49.5094 20.0503H43.943C43.9754 19.8237 43.997 19.5972 44.0185 19.3707C44.2882 16.0805 43.6518 13.0815 42.1307 10.4601C41.9797 10.2012 41.9905 10.1473 42.1199 9.95312C43.6733 7.61221 45.1189 6.08038 46.7909 4.96926C47.7295 4.34358 48.614 3.94444 49.5202 3.75026V20.0503H49.5094ZM39.3691 24.1819L39.272 24.3869C39.1857 24.5595 39.0994 24.7321 39.0239 24.9155C38.6463 25.8001 38.916 26.6415 39.7143 27.0622C40.1134 27.2672 40.5449 27.3103 40.9333 27.1809C41.354 27.0406 41.6992 26.717 41.915 26.2639C42.3572 25.3362 42.7456 24.4193 43.0692 23.5562C43.1663 23.2866 43.1771 23.2866 43.3928 23.2866C45.4317 23.3189 47.4706 23.3081 49.4986 23.2973C49.5202 23.2973 49.5418 23.2973 49.5633 23.2973C49.5526 26.21 49.5526 29.1226 49.5526 32.0245L49.531 35.552H35.6042C35.5826 34.6351 35.6905 34.0418 36.3701 33.5132C37.0821 32.963 37.6646 32.2726 38.2256 31.6038C38.409 31.388 38.5816 31.1831 38.765 30.9781C39.121 30.579 39.2936 30.1043 39.2612 29.6512C39.2288 29.2413 39.0347 28.8637 38.711 28.5833C38.3658 28.292 37.9775 28.1518 37.5783 28.1841C37.2655 28.2057 36.8016 28.3567 36.3486 28.8961C34.3421 31.2694 31.9904 33.3729 29.3582 35.1637C29.3043 35.196 29.164 35.2284 29.1964 35.2608C24.3204 31.9058 21.1165 28.443 19.11 24.3437C17.2438 20.5142 16.9956 16.9866 18.3333 13.5346C20.3074 8.48601 25.4855 5.48706 30.944 6.24219C36.1328 6.95417 40.2752 11.3016 40.8038 16.5659C41.0627 19.1118 40.5881 21.6037 39.3691 24.1819ZM38.3227 6.04801L42.1523 4.77508L39.8869 7.43961L38.3227 6.04801ZM32.2169 38.8315L33.5546 51.0754H29.3798C26.5103 51.0754 23.6516 51.0754 20.7821 51.0754C20.5016 51.0754 20.5016 51.0754 20.4477 50.9459C18.7756 47.2026 17.8047 43.1573 17.5782 38.8315H32.2169Z"
+                                    fill="black" />
+                                <path
+                                    d="M33.3071 16.3824C31.7645 15.5086 30.2218 14.6456 28.6576 13.8042C27.8701 13.3727 27.0287 13.3511 26.3814 13.7179C25.7234 14.0955 25.3351 14.829 25.3027 15.7352C25.2811 16.3393 25.2919 16.9434 25.2919 17.5475V18.3781V19.1548C25.2919 19.7482 25.2811 20.3415 25.2919 20.9456C25.3135 21.8949 25.7018 22.65 26.3599 23.0384C26.6619 23.211 27.0071 23.2973 27.3631 23.2973C27.7946 23.2973 28.2477 23.1786 28.7008 22.9305C30.2326 22.0998 31.7644 21.2476 33.2855 20.3846C34.1269 19.91 34.6124 19.1764 34.6124 18.3889C34.6339 17.5799 34.1485 16.8571 33.3071 16.3824ZM30.2973 18.3673L28.5605 19.3274V17.4073L30.2973 18.3673Z"
+                                    fill="black" />
+                                <path
+                                    d="M69.7678 43.0603C68.1065 42.1002 66.4344 41.1724 64.7947 40.3094C64.0827 39.9319 63.306 39.9319 62.6695 40.3094C62.0331 40.687 61.6339 41.399 61.6123 42.208C61.6016 42.8337 61.6016 43.4594 61.6016 44.0743V44.9157V47.5371V47.6989C61.6339 48.5296 62.0331 49.2415 62.6911 49.6299C63.0039 49.8133 63.3599 49.9104 63.7159 49.9104C64.0719 49.9104 64.4387 49.8241 64.7839 49.6407C66.6178 48.6806 68.2575 47.7636 69.8109 46.8359C70.5121 46.4152 70.9328 45.7248 70.9328 44.9697C70.922 44.1822 70.4905 43.481 69.7678 43.0603ZM66.5962 44.9481L64.8378 45.919V43.9664L66.5962 44.9481Z"
+                                    fill="black" />
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Engage in <br>
+                            the Community</div>
+                        <div class="how__text">You are part of a Community; so connect, engage and trade with other
+                            playlisters to unleash a truly collaborative music discovery environment & playlisting
+                            experience.</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img">
+                            <svg width="78" height="70" viewBox="0 0 78 70" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.7807 5.36572H4.92317L0 13.9L4.92317 22.4342H14.7807L19.7151 13.9L14.7807 5.36572Z"
+                                    fill="#FF1241" />
+                                <path
+                                    d="M29.526 39.7335C26.3953 40.5818 23.3607 41.4126 20.3086 42.2084C19.8889 42.3133 19.9151 42.5494 19.9064 42.8555C19.7927 45.8201 17.4227 48.1288 14.4931 48.1463C11.8783 48.1638 9.6483 46.3361 9.11485 43.7388C8.60763 41.2814 9.95438 38.7365 12.2718 37.7221C14.6593 36.6814 17.4315 37.4598 18.9182 39.5761C19.0493 39.7597 19.163 39.9521 19.3292 40.197C22.5124 39.34 25.7044 38.4829 28.9313 37.6172C28.2055 33.1484 29.2549 29.1956 32.0621 25.7675C30.3043 24.0097 28.5641 22.2607 26.7888 20.4767C24.0428 22.5668 20.912 23.3713 17.4402 22.593C14.773 21.9896 12.6129 20.5554 10.9951 18.3429C7.69813 13.8129 8.32778 7.60382 12.4642 3.7647C16.522 0.0130318 22.8097 -0.0831647 27.0774 3.55482C31.1963 7.06162 32.4731 13.6555 28.5028 18.7889C30.2519 20.5379 31.9921 22.2782 33.7849 24.0622C35.8225 22.3569 38.2362 21.2375 40.9647 20.844C43.6844 20.4504 46.2905 20.8527 48.8703 21.9808C49.5699 20.7128 50.2608 19.4535 50.9691 18.1767C49.6661 17.0748 48.8528 15.7193 48.5642 14.0402C47.9608 10.4897 50.357 7.15782 54.0212 6.48444C57.3793 5.86353 60.8249 8.21598 61.5158 11.6004C62.504 16.4452 58.2276 20.5554 53.4178 19.366C53.068 19.2786 52.8493 19.2698 52.6482 19.6546C52.071 20.774 51.4501 21.8584 50.8117 23.0215C54.3972 25.5051 56.5398 28.907 57.1694 33.3495C60.8774 33.2096 64.5853 33.0784 68.3195 32.9385C68.6343 31.8716 69.1503 30.9796 70.0335 30.3325C72.0799 28.8458 74.9308 29.3792 76.2863 31.5043C77.6243 33.6031 76.9335 36.3928 74.7647 37.6347C72.5784 38.8852 69.7624 38.0369 68.7043 35.7457C68.4594 35.221 68.1971 35.1161 67.6811 35.1423C64.2355 35.2997 60.7812 35.4221 57.2481 35.5533C57.0382 38.789 55.9626 41.7011 53.9075 44.1323C55.6828 45.9076 57.4405 47.6566 59.207 49.4144C64.4454 45.3479 71.2316 46.887 74.6772 51.2508C78.1053 55.5884 77.703 62.0424 73.7152 65.8815C69.605 69.843 63.2998 70.0617 58.9709 66.4324C54.8257 62.9518 53.4527 56.3755 57.458 51.1546C55.709 49.4144 53.96 47.6828 52.2459 45.995C51.0741 46.6596 49.8935 47.4817 48.5904 48.0589C45.1798 49.5718 41.6818 49.6505 38.1662 48.3999C37.6852 48.225 37.5016 48.3212 37.2917 48.7672C36.6533 50.114 35.9712 51.4258 35.2803 52.8162C37.3967 54.4253 38.5685 56.5679 38.5598 59.2614C38.551 61.1329 37.8864 62.7944 36.6621 64.2199C34.2571 67.0271 30.0945 67.6742 26.8675 65.7416C23.6843 63.8351 22.3463 59.8473 23.6843 56.3493C24.8736 53.2272 28.5553 50.4638 33.3214 51.8105C34.0822 50.2976 34.8431 48.776 35.6301 47.2106C32.753 45.4003 30.7241 42.943 29.526 39.7335ZM42.9761 47.0532C49.6573 47.0357 55.0793 41.6137 55.0618 34.9586C55.0444 28.2424 49.6311 22.8816 42.8886 22.8903C36.2598 22.8991 30.8728 28.3823 30.899 35.0811C30.9252 41.6574 36.391 47.0707 42.9761 47.0532ZM30.9515 53.647C27.9431 53.6208 25.4508 56.0432 25.4071 59.034C25.3633 62.0861 27.7857 64.5872 30.8116 64.6309C33.8549 64.6659 36.3735 62.2347 36.391 59.2177C36.4084 56.1656 33.9773 53.682 30.9515 53.647ZM26.5702 17.5033C29.115 14.8973 29.8321 9.43155 26.1591 5.71487C22.6086 2.12061 16.8368 2.2343 13.4175 5.97722C9.90191 9.81634 10.8814 15.1946 13.1289 17.3634C13.4699 16.3315 13.6798 15.1334 14.2482 14.1452C14.8254 13.1482 15.7612 12.3699 16.5657 11.4604C15.0965 9.32661 15.1665 7.11409 16.8281 5.47C18.3322 3.98333 20.7022 3.79094 22.4337 4.99777C23.2907 5.60118 23.8679 6.40573 24.1478 7.41143C24.585 8.98555 24.1565 10.376 23.1683 11.6091C25.582 13.4368 25.9842 14.1364 26.5702 17.5033ZM62.7926 57.7835C61.2272 55.1424 61.3758 52.9474 63.1948 51.3995C64.8302 50.0003 67.2176 49.9828 68.8704 51.3558C69.71 52.0554 70.2172 52.9649 70.3921 54.0405C70.6195 55.431 70.1822 56.6466 69.2727 57.7572C71.4852 59.1302 72.5959 61.1066 72.6746 63.7214C75.6129 60.477 75.7616 54.8101 71.7738 51.347C68.0047 48.0764 62.2066 48.671 59.1371 52.5976C55.9451 56.6816 57.3881 61.8237 59.4519 63.6252C59.5044 61.0804 60.6412 59.1302 62.7926 57.7835ZM55.0618 17.3984C57.493 17.3984 59.4607 15.4132 59.4519 12.9821C59.4432 10.5859 57.4843 8.61826 55.0881 8.60951C52.6569 8.60077 50.6718 10.5597 50.663 12.9908C50.663 15.4132 52.6394 17.3984 55.0618 17.3984ZM14.3969 39.3749C12.6042 39.3837 11.135 40.8616 11.1262 42.6544C11.1175 44.4734 12.6042 45.96 14.4406 45.96C16.2246 45.96 17.7113 44.4734 17.7113 42.6806C17.7113 40.8529 16.2247 39.3662 14.3969 39.3749ZM24.1215 16.279C23.5968 14.2501 21.7866 12.9296 19.7227 13.0083C17.8075 13.0783 16.0497 14.5125 15.7437 16.279C18.5159 16.279 21.2968 16.279 24.1215 16.279ZM70.2522 62.4096C69.7275 60.3808 67.9172 59.0603 65.8534 59.139C63.9382 59.2089 62.1804 60.6431 61.8743 62.4096C64.6553 62.4096 67.4362 62.4096 70.2522 62.4096ZM60.3701 64.6572C63.7808 67.7442 69.0978 67.2719 71.6601 64.6572C67.926 64.6572 64.218 64.6572 60.3701 64.6572ZM14.2657 18.509C17.5801 21.666 23.212 21.0801 25.4858 18.509C21.7778 18.509 18.0786 18.509 14.2657 18.509ZM22.1101 8.58328C22.0926 7.38519 21.1044 6.41448 19.9064 6.41448C18.682 6.41448 17.6938 7.44641 17.7201 8.67073C17.7551 9.86881 18.7607 10.822 19.9588 10.8045C21.1482 10.7871 22.1276 9.77262 22.1101 8.58328ZM68.2408 54.7402C68.232 53.5421 67.2613 52.5626 66.0545 52.5539C64.8302 52.5451 63.8245 53.5596 63.8507 54.7839C63.8682 55.982 64.8652 56.9439 66.0632 56.9352C67.2613 56.9352 68.2495 55.9295 68.2408 54.7402ZM72.6046 31.6792C71.4065 31.6967 70.4358 32.6936 70.4533 33.8917C70.4708 35.0898 71.4503 36.0693 72.6483 36.0693C73.8727 36.0693 74.8696 35.0461 74.8434 33.8218C74.8084 32.6237 73.8027 31.6617 72.6046 31.6792Z"
+                                    fill="black" stroke="black" stroke-width="0.75" />
+                                <g clip-path="url(#clip0_642_308)">
+                                    <path
+                                        d="M52 35C52 35 49.465 35 48.1976 35L46.5942 39.7033L43.5015 28L40.8906 42L39.1763 34.98H35"
+                                        stroke="black" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_642_308">
+                                        <rect width="21" height="15" fill="white" transform="translate(32 27)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                        </div>
+                        <div class="how__title">Become a real music <br> influencer with PlaylistPulseTM</div>
+                        <div class="how__text">Your collective intelligence is presented in a data-driven A&R
+                            chart, comprised of music recommendations for our members and distributed to thousands of
+                            leading music industry outlets.</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Statistic -->
+        <section class="section__statistic ui-plc-section hero songblog-hero wf-section">
+            <div class="container__club">
+                <div class="statistic">
+                    <div class="statistic__item left__item">
+                        <h2 class="section__title">Our community numbers...</h2>
+                        <div class="statistic__text">Some <span>5674</span> playlisters collaborated to produce
+                            <span>751,246</span>
+                            placements in <span>90,581</span> playlists and discover a total <span>114,243 </span>
+                            new tracks they broke out to the world!
+                        </div>
+                    </div>
+                    <div class="statistic__item right__item">
+                        <div class="statistic__price">
+                            <div class="statistic__price-item">ABSOLUTELY</div>
+                            <div class="statistic__price-item">
+                                <small class="small__free">FREE</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Reviews -->
+        <section class="section__reviews">
+            <div class="container__club">
+                <div class="reviews">
+                    <h2 class="section__title title__center reviews__title">... and happy people at-a-glance!</h2>
+
+                    <div class="reviews__slider">
+                        <!-- Slider main container -->
+                        <div class="swiper swiper__reviews">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Satisfied -->
+        <div class="satisfied">
+            <h2 class="section__title title__center">Interested?</h2>
+            <a href="#" class="club__btn satisfied__btn">Sign Up <span>to Playlister Club</span> today!</a>
+        </div>
+
+        <!-- Section Pluses -->
+        <section class="section__pluses">
+            <h2 class="title__pluses">But what's in it for you?</h2>
+            <div class="container">
+                <div class="pluses pluses__pc">
+                    <div class="pluses__item">
+                        <div class="pluses__img"><svg width="47" height="47" viewBox="0 0 47 47" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M44.2721 3.94977C43.4605 3.31384 42.4983 2.98752 41.4105 2.97078C40.8248 2.96241 40.0466 2.95405 39.2684 2.97078C39.2601 2.97078 39.2517 2.97078 39.2433 2.97078C39.1931 2.97078 39.168 2.97078 39.1597 2.97078C39.1597 2.95405 39.1513 2.92895 39.1513 2.86201C39.168 2.48547 39.168 2.09221 39.1513 1.66547C39.1178 0.745056 38.4568 0.0672968 37.5782 0.0589294C37.5699 0.0589294 37.5699 0.0589294 37.5615 0.0589294C36.6913 0.0589294 36.0386 0.719954 35.9884 1.64037C35.9633 2.0671 35.9717 2.49384 35.9801 2.92895C35.9801 2.95405 35.9801 2.97078 35.9801 2.97915C35.9717 2.97915 35.955 2.97915 35.9299 2.97915C35.2772 2.97078 34.499 2.96241 33.746 2.97915C33.7376 2.97915 33.7376 2.97915 33.7292 2.97915C33.7125 2.97915 33.7041 2.97915 33.6958 2.97915C33.6958 2.96241 33.6958 2.93731 33.6958 2.90384C33.7041 2.51058 33.7041 2.10894 33.6958 1.71567C33.6707 0.76179 33.0096 0.067297 32.1143 0.067297H32.106C31.2106 0.067297 30.5664 0.745056 30.5329 1.70731C30.5245 2.0671 30.5078 2.46874 30.5413 2.86201C30.5496 2.93731 30.5413 2.97078 30.5413 2.97078C30.5329 2.97915 30.4994 2.96241 30.3906 2.98752C25.5627 2.97915 20.7347 2.97915 15.9067 2.98752C15.8314 2.98752 15.7979 2.97915 15.7979 2.98752C15.7979 2.97915 15.7895 2.94568 15.7979 2.88711C15.823 2.51058 15.8146 2.14241 15.7979 1.78261C15.7728 0.786892 15.1285 0.0840312 14.2332 0.0756638C13.2877 0.0672964 12.6518 0.770158 12.6267 1.79935C12.6183 2.14241 12.6099 2.50221 12.6267 2.86201C12.635 2.95405 12.6267 2.99588 12.6267 2.99588C12.6183 2.99588 12.5932 3.01262 12.5012 3.00425C11.9071 2.97915 11.2628 2.97915 10.493 3.00425C10.4763 3.00425 10.4679 3.00425 10.4512 3.00425C10.3758 3.00425 10.3507 2.99588 10.3507 3.00425C10.3507 2.99588 10.3424 2.96241 10.3507 2.88711C10.3758 2.56078 10.3675 2.23445 10.3591 1.91649V1.77425C10.334 0.778525 9.68135 0.0840314 8.76931 0.0840314C8.76931 0.0840314 8.76931 0.0840314 8.76094 0.0840314C7.86563 0.0840314 7.21297 0.778525 7.1795 1.77425C7.17113 2.11731 7.1544 2.50221 7.1795 2.88711C7.18787 2.96241 7.1795 2.98752 7.1795 2.99588C7.16277 3.00425 7.1293 3.01262 7.02052 3.01262C6.73603 3.01262 6.45154 3.01262 6.16705 3.00425C5.52276 2.98752 4.845 2.97915 4.18398 3.07956C1.96662 3.40589 0.268036 5.33875 0.234567 7.57285C0.217832 8.74428 0.217832 9.92409 0.226199 11.0955V12.5682V19.396C0.226199 26.9852 0.226199 34.5744 0.226199 42.1636C0.226199 44.1551 1.12988 45.6278 2.90376 46.5482C3.06274 46.6318 3.23009 46.6737 3.39744 46.7239C3.59826 46.7741 3.79071 46.8327 3.93295 46.9498L3.99153 47H42.0632L42.0966 46.9833C42.2723 46.9163 42.4564 46.8578 42.6405 46.7992C42.9919 46.6904 43.3601 46.5816 43.7032 46.3724C45.1424 45.5022 45.9289 44.222 46.046 42.5485C46.0544 42.4398 46.0544 42.3226 46.0544 42.2139V7.80714C46.0962 6.18386 45.4854 4.89528 44.2721 3.94977ZM3.40581 15.1202C3.40581 14.9111 3.43928 14.8525 3.44765 14.8441C3.46438 14.8274 3.53132 14.8023 3.7405 14.8023C17.0028 14.819 30.0978 14.8106 42.6489 14.8023C42.8497 14.8023 42.8915 14.8357 42.8999 14.8441C42.9166 14.8608 42.9417 14.9111 42.9417 15.1119C42.9334 22.4333 42.9334 29.7464 42.9334 37.0679V41.9461C42.9334 43.2681 42.3979 43.812 41.0758 43.812H5.29684C3.94132 43.812 3.41418 43.2765 3.41418 41.921V37.3775C3.42254 29.9473 3.42254 22.5337 3.40581 15.1202ZM3.41418 7.88244C3.41418 6.71101 3.99153 6.14202 5.17133 6.13366C5.40561 6.13366 5.6399 6.13366 5.88256 6.13366C6.28419 6.13366 6.68583 6.13366 7.08746 6.12529C7.09583 6.12529 7.1042 6.12529 7.11256 6.12529C7.1795 6.12529 7.2046 6.13366 7.2046 6.12529C7.2046 6.13366 7.21297 6.15876 7.21297 6.2257C7.19624 6.52692 7.2046 6.83652 7.2046 7.13774V7.27999C7.21297 7.8406 7.39705 8.31755 7.73175 8.63551C8.01624 8.91163 8.39277 9.05388 8.81114 9.04551C9.73156 9.02877 10.3591 8.31754 10.3758 7.27999V7.17121C10.3842 6.84488 10.3842 6.51019 10.3758 6.18386C10.3758 6.15039 10.3758 6.13366 10.3758 6.12529C10.3926 6.12529 10.4093 6.12529 10.4512 6.12529C11.0787 6.13366 11.815 6.14202 12.5514 6.12529C12.5597 6.12529 12.5681 6.12529 12.5765 6.12529C12.6183 6.12529 12.6434 6.12529 12.6518 6.12529C12.6518 6.13366 12.6601 6.16713 12.6601 6.2508C12.6434 6.60223 12.6518 6.95366 12.6601 7.30509C12.6769 8.34265 13.3128 9.04551 14.2416 9.05388H14.2499C15.162 9.05388 15.8147 8.34265 15.8314 7.31346C15.8398 6.92856 15.8398 6.55203 15.8314 6.16713C15.8314 6.14202 15.8314 6.12529 15.8314 6.11692C15.8398 6.11692 15.8481 6.11692 15.8649 6.11692C15.9234 6.12529 15.982 6.11692 16.0489 6.11692H16.1159H19.1198C22.8349 6.11692 26.5584 6.11692 30.2819 6.10855H30.2902C30.4994 6.10855 30.558 6.14202 30.5664 6.15876C30.5747 6.16713 30.6082 6.21733 30.5915 6.40141C30.558 6.77795 30.5747 7.14611 30.5915 7.52264C30.6417 8.38449 31.3027 9.03714 32.1394 9.04551C32.1478 9.04551 32.1478 9.04551 32.1562 9.04551C32.9929 9.04551 33.6623 8.40959 33.7292 7.55611C33.7543 7.17958 33.7543 6.78631 33.7376 6.25917C33.7292 6.15876 33.746 6.12529 33.7376 6.12529C33.746 6.12529 33.7711 6.10855 33.8631 6.11692C34.5492 6.14202 35.227 6.14202 35.8713 6.11692C35.9717 6.11692 36.0052 6.12529 36.0052 6.12529C36.0052 6.13366 36.0219 6.16713 36.0135 6.29264C35.9968 6.74448 35.9968 7.15448 36.0219 7.53938C36.0805 8.40959 36.7415 9.04551 37.5866 9.04551C38.4066 9.04551 39.0844 8.41795 39.1597 7.58958C39.2015 7.12938 39.1848 6.66917 39.1764 6.2006C39.1764 6.15039 39.1764 6.12529 39.1764 6.11692C39.1931 6.11692 39.2182 6.11692 39.2684 6.10855C39.578 6.11692 39.896 6.10855 40.2056 6.10855C40.6072 6.10855 41.0005 6.10019 41.3938 6.11692C42.3728 6.15039 42.9417 6.74448 42.9417 7.7402C42.9417 8.18367 42.9417 8.62714 42.9417 9.07061C42.9417 9.84041 42.9334 10.6018 42.9501 11.3716C42.9501 11.5557 42.925 11.5892 42.925 11.5976C42.925 11.5976 42.8915 11.631 42.6991 11.631C38.5321 11.6227 34.3652 11.6227 30.1982 11.6227C29.0268 11.6227 27.8553 11.6227 26.6923 11.6227H23.178H19.6051C14.3002 11.6227 9.00359 11.6227 3.70703 11.631C3.50622 11.6227 3.45601 11.6059 3.44765 11.5976C3.43928 11.5892 3.41418 11.5474 3.41418 11.3549C3.43928 10.56 3.43091 9.74837 3.43091 8.9702C3.41418 8.61877 3.41418 8.25061 3.41418 7.88244Z"
+                                    fill="white" />
+                                <path
+                                    d="M23.1684 40.4065C23.1851 40.4065 23.1935 40.4065 23.2102 40.4065C29.2933 40.4065 34.2552 35.4446 34.2803 29.3364C34.297 26.3827 33.1507 23.5964 31.0588 21.4878C28.9586 19.3708 26.1639 18.2078 23.1935 18.1994C23.1851 18.1994 23.1684 18.1994 23.16 18.1994C17.0937 18.1994 12.1234 23.1529 12.0649 29.2611C12.0398 32.1813 13.1777 34.9593 15.2696 37.0762C17.3865 39.2099 20.1896 40.3981 23.1684 40.4065ZM15.2361 29.2611C15.3114 24.8849 18.8592 21.3539 23.1517 21.3539C23.1851 21.3539 23.2102 21.3539 23.2437 21.3539C27.6282 21.4041 31.1676 24.9854 31.1341 29.3364C31.0923 33.7125 27.5529 37.2436 23.227 37.2436C23.2102 37.2436 23.1851 37.2436 23.1684 37.2436C21.018 37.2269 18.9931 36.3566 17.4786 34.8003C15.9892 33.2858 15.1943 31.3195 15.2361 29.2611Z"
+                                    fill="white" />
+                                <path
+                                    d="M20.9502 32.8173C21.3016 33.1687 21.7116 33.336 22.1133 33.336C22.5149 33.336 22.9082 33.1687 23.2596 32.8256C24.431 31.6626 25.5941 30.4995 26.7655 29.3281L28.0792 28.006C28.4223 27.663 28.5896 27.2781 28.5812 26.8346C28.5896 26.4832 28.4808 26.1568 28.2633 25.8723C27.9788 25.5042 27.5772 25.2866 27.1421 25.2615C26.6735 25.2364 26.1965 25.4289 25.8116 25.8054C24.5231 27.0772 23.36 28.2403 22.2471 29.3699C22.1467 29.4703 22.1133 29.487 22.1133 29.487C22.1133 29.487 22.0798 29.4787 21.9961 29.3866C21.5108 28.8595 21.0004 28.3575 20.5151 27.8972C19.829 27.2362 18.8667 27.2195 18.2308 27.8554C17.6032 28.483 17.6283 29.4619 18.281 30.1397C19.1679 31.0518 20.0632 31.9554 20.9502 32.8173Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                        <div class="pluses__title">Scheduler</div>
+                        <div class="pluses__text">No longer are the days of switching between different messaging
+                            platforms to connect with playlisters like yourself. Unlock a direct messaging line with
+                            the
+                            biggest curators around the globe!
+
+                        </div>
+                    </div>
+                    <div class="pluses__item">
+                        <div class="pluses__image">
+                            <img src="./img/playlister-club/pluses.png" alt="img">
+                        </div>
+                    </div>
+                    <div class="pluses__item">
+                        <div class="pluses__img">
+                            <svg width="52" height="49" viewBox="0 0 52 49" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M32.1485 1.81146H4.92398C2.96178 1.81146 1.36914 3.4041 1.36914 5.36631V20.6064C1.36914 22.5686 2.96178 24.1612 4.92398 24.1612H8.36444V32.4324L19.9001 24.1612H32.1397C34.1019 24.1612 35.6945 22.5686 35.6945 20.6064V5.36631C35.7033 3.4041 34.1107 1.81146 32.1485 1.81146Z"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M19.0039 24.5747V35.6616C19.0039 37.6238 20.5965 39.2165 22.5587 39.2165H31.1291L42.9639 47.1885V39.2165H46.4484C48.4106 39.2165 50.0032 37.6238 50.0032 35.6616V20.4215C50.0032 18.4593 48.4106 16.8667 46.4484 16.8667H35.7046"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                        </div>
+                        <div class="pluses__title">SongChat</div>
+                        <div class="pluses__text">No longer are the days of switching between different messaging
+                            platforms to connect with playlisters like yourself. Unlock a direct messaging line with
+                            the
+                            biggest curators around the globe!</div>
+                    </div>
+                    <div class="pluses__item">
+                        <div class="pluses__img"><svg width="48" height="34" viewBox="0 0 48 34" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M42.4625 0.368669L47.7514 6.62989C48.0946 7.03239 48.079 7.6764 47.728 8.06997L42.4391 13.8929C41.8775 14.5101 40.9414 14.0539 40.9414 13.1594V1.07529C40.9414 0.162944 41.9087 -0.284287 42.4625 0.368669Z"
+                                    fill="white" />
+                                <path
+                                    d="M1.35253 8.5294H41.0004C41.7518 8.5294 42.3529 7.98672 42.3529 7.32606V6.90921C42.3529 6.24069 41.743 5.70587 41.0004 5.70587H1.35253C0.601126 5.70587 0 6.24856 0 6.90921V7.32606C0 7.99458 0.601126 8.5294 1.35253 8.5294Z"
+                                    fill="white" />
+                                <path
+                                    d="M5.53766 33.6275L0.248849 27.368C-0.0943772 26.9656 -0.0787755 26.3218 0.272252 25.9283L5.56106 20.1071C6.1227 19.49 7.05878 19.9461 7.05878 20.8403V32.9211C7.06658 33.8331 6.0915 34.2892 5.53766 33.6275Z"
+                                    fill="white" />
+                                <path
+                                    d="M46.6469 25.4706H6.99902C6.24761 25.4706 5.64648 26.0133 5.64648 26.6739V27.0908C5.64648 27.7593 6.25645 28.2941 6.99902 28.2941H46.6469C47.3983 28.2941 47.9994 27.7514 47.9994 27.0908V26.6739C47.9994 26.0054 47.3983 25.4706 46.6469 25.4706Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                        <div class="pluses__title">Trading</div>
+                        <div class="pluses__text">No longer are the days of switching between different messaging
+                            platforms to connect with playlisters like yourself. Unlock a direct messaging line with
+                            the
+                            biggest curators around the globe!</div>
+                    </div>
+                    <div class="pluses__item">
+                        <div class="pluses__img"><svg width="47" height="44" viewBox="0 0 47 44" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M27.7486 7.94044H2.21839C1.39144 7.94044 0.714844 7.26384 0.714844 6.43689C0.714844 5.60994 1.39144 4.93335 2.21839 4.93335H27.7486C28.5755 4.93335 29.2521 5.60994 29.2521 6.43689C29.2521 7.26384 28.583 7.94044 27.7486 7.94044Z"
+                                    fill="white" />
+                                <path
+                                    d="M27.7486 19.3599H2.21839C1.39144 19.3599 0.714844 18.6833 0.714844 17.8564C0.714844 17.0294 1.39144 16.3528 2.21839 16.3528H27.7486C28.5755 16.3528 29.2521 17.0294 29.2521 17.8564C29.2521 18.6833 28.583 19.3599 27.7486 19.3599Z"
+                                    fill="white" />
+                                <path
+                                    d="M14.9835 30.7794H2.21839C1.39144 30.7794 0.714844 30.1028 0.714844 29.2758C0.714844 28.4489 1.39144 27.7723 2.21839 27.7723H14.9835C15.8104 27.7723 16.487 28.4489 16.487 29.2758C16.487 30.1028 15.8179 30.7794 14.9835 30.7794Z"
+                                    fill="white" />
+                                <path
+                                    d="M33.6364 38.485C32.8094 38.485 32.1328 37.8084 32.1328 36.9815V4.8357C32.1328 4.17414 32.5688 3.58776 33.2078 3.3923L44.3416 0.0619484C44.7926 -0.0733705 45.2888 0.0168424 45.6722 0.294998C46.0556 0.573154 46.2812 1.02422 46.2812 1.49783V11.2258C46.2812 11.8497 45.8902 12.4136 45.3039 12.6316L35.1399 16.4581V36.9815C35.1399 37.8084 34.4708 38.485 33.6364 38.485ZM35.1399 5.95584V13.248L43.2666 10.1958V3.52762L35.1399 5.95584Z"
+                                    fill="white" />
+                                <path
+                                    d="M25.8016 43.131C20.5617 43.131 16.457 40.4998 16.457 37.1469C16.457 33.794 20.5617 31.1628 25.8016 31.1628C31.0414 31.1628 35.1461 33.794 35.1461 37.1469C35.1386 40.4998 31.0339 43.131 25.8016 43.131ZM25.8016 34.1699C22.178 34.1699 19.4641 35.7411 19.4641 37.1469C19.4641 38.5527 22.1705 40.1239 25.8016 40.1239C29.4326 40.1239 32.1315 38.5527 32.1315 37.1469C32.1315 35.7411 29.4251 34.1699 25.8016 34.1699Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                        <div class="pluses__title">Discover</div>
+                        <div class="pluses__text">Our Discover page uses your current listening and curation tastes
+                            to
+                            recommend you the best emerging talent. Easily browse with different filters like
+                            Genres,
+                            Hot & Trending, and even a unique section tailored Just for You!</div>
+                    </div>
+                    <div class="pluses__item">
+                        <div class="pluses__img"><svg width="57" height="48" viewBox="0 0 57 48" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.54169 45.8644H3.26797C2.55018 45.8644 1.96289 45.2771 1.96289 44.5593V35.5915C1.96289 34.8737 2.55018 34.2864 3.26797 34.2864H9.53237C10.2502 34.2864 10.8374 34.8737 10.8374 35.5915V44.5593C10.8468 45.2678 10.2595 45.8644 9.54169 45.8644Z"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+                                <path
+                                    d="M24.216 45.8643H17.9516C17.2338 45.8643 16.6465 45.277 16.6465 44.5592V20.9932C16.6465 20.2754 17.2338 19.6881 17.9516 19.6881H24.216C24.9338 19.6881 25.521 20.2754 25.521 20.9932V44.5592C25.5304 45.2677 24.9338 45.8643 24.216 45.8643Z"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+                                <path
+                                    d="M39.1691 45.8644H32.9047C32.1869 45.8644 31.5996 45.2771 31.5996 44.5593V35.5915C31.5996 34.8737 32.1869 34.2864 32.9047 34.2864H39.1691C39.8869 34.2864 40.4742 34.8737 40.4742 35.5915V44.5593C40.4835 45.2678 39.8962 45.8644 39.1691 45.8644Z"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+                                <path
+                                    d="M53.8488 45.8643H47.5844C46.8666 45.8643 46.2793 45.277 46.2793 44.5592V20.9932C46.2793 20.2754 46.8666 19.6881 47.5844 19.6881H53.8488C54.5666 19.6881 55.1539 20.2754 55.1539 20.9932V44.5592C55.1539 45.2677 54.5666 45.8643 53.8488 45.8643Z"
+                                    stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+                                <path d="M6.41016 18.9703L21.083 4.21356" stroke="white" stroke-width="2.5"
+                                    stroke-miterlimit="10" />
+                                <path d="M34.6543 18.3084L50.5483 4.86609" stroke="white" stroke-width="2.5"
+                                    stroke-miterlimit="10" />
+                                <path d="M37.3491 18.3084L21.4551 4.86609" stroke="white" stroke-width="2.5"
+                                    stroke-miterlimit="10" />
+                                <path
+                                    d="M6.40958 24.2466C8.9323 24.2466 10.9774 22.2015 10.9774 19.6788C10.9774 17.1561 8.9323 15.111 6.40958 15.111C3.88687 15.111 1.8418 17.1561 1.8418 19.6788C1.8418 22.2015 3.88687 24.2466 6.40958 24.2466Z"
+                                    fill="white" />
+                                <path
+                                    d="M21.4545 9.13558C23.9772 9.13558 26.0223 7.09051 26.0223 4.56779C26.0223 2.04507 23.9772 0 21.4545 0C18.9318 0 16.8867 2.04507 16.8867 4.56779C16.8867 7.09051 18.9318 9.13558 21.4545 9.13558Z"
+                                    fill="white" />
+                                <path
+                                    d="M50.7182 9.13558C53.2409 9.13558 55.286 7.09051 55.286 4.56779C55.286 2.04507 53.2409 0 50.7182 0C48.1955 0 46.1504 2.04507 46.1504 4.56779C46.1504 7.09051 48.1955 9.13558 50.7182 9.13558Z"
+                                    fill="white" />
+                                <path
+                                    d="M35.894 20.7974C38.4167 20.7974 40.4617 18.7524 40.4617 16.2297C40.4617 13.7069 38.4167 11.6619 35.894 11.6619C33.3712 11.6619 31.3262 13.7069 31.3262 16.2297C31.3262 18.7524 33.3712 20.7974 35.894 20.7974Z"
+                                    fill="white" />
+                            </svg>
+                        </div>
+                        <div class="pluses__title">Industry Tracker</div>
+                        <div class="pluses__text">et an exclusive daily outline of the playlisting industry, with
+                            notable news, and in-depth looks at the biggest playlisting brands! You can even browse
+                            music videos and add directly to your playlists!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pluses__mob">
+                <div class="pluses__mob-img">
+                    <img src="./img/playlister-club/pluses.png" alt="img">
+                </div>
+
+                <!-- Slider main container -->
+                <div class="swiper swiper-pluses">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide pluses__slide">
+                            <div class="pluses__slide-img"><svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M33.5144 2.93791C32.9103 2.46459 32.1941 2.2217 31.3844 2.20924C30.9485 2.20302 30.3693 2.19679 29.7901 2.20924C29.7839 2.20924 29.7776 2.20924 29.7714 2.20924C29.734 2.20924 29.7154 2.20924 29.7091 2.20924C29.7091 2.19679 29.7029 2.17811 29.7029 2.12828C29.7154 1.84803 29.7154 1.55531 29.7029 1.23769C29.678 0.55262 29.186 0.0481591 28.532 0.0419312C28.5258 0.0419312 28.5258 0.0419312 28.5196 0.0419312C27.8719 0.0419312 27.3861 0.533936 27.3487 1.21901C27.3301 1.53663 27.3363 1.85425 27.3425 2.17811C27.3425 2.19679 27.3425 2.20924 27.3425 2.21547C27.3363 2.21547 27.3238 2.21547 27.3051 2.21547C26.8194 2.20924 26.2402 2.20302 25.6797 2.21547C25.6734 2.21547 25.6734 2.21547 25.6672 2.21547C25.6548 2.21547 25.6485 2.21547 25.6423 2.21547C25.6423 2.20302 25.6423 2.18433 25.6423 2.15942C25.6485 1.86671 25.6485 1.56777 25.6423 1.27506C25.6236 0.565075 25.1316 0.0481592 24.4652 0.0481592H24.459C23.7926 0.0481592 23.3131 0.55262 23.2881 1.26883C23.2819 1.53663 23.2695 1.83557 23.2944 2.12828C23.3006 2.18433 23.2944 2.20924 23.2944 2.20924C23.2881 2.21547 23.2632 2.20302 23.1823 2.2217C19.5888 2.21547 15.9953 2.21547 12.4018 2.2217C12.3457 2.2217 12.3208 2.21547 12.3208 2.2217C12.3208 2.21547 12.3146 2.19056 12.3208 2.14697C12.3395 1.86671 12.3333 1.59268 12.3208 1.32488C12.3021 0.583759 11.8226 0.0606146 11.1562 0.0543867C10.4524 0.0481588 9.9791 0.571304 9.96042 1.33734C9.95419 1.59268 9.94796 1.86048 9.96042 2.12828C9.96665 2.19679 9.96042 2.22793 9.96042 2.22793C9.95419 2.22793 9.93551 2.24038 9.867 2.23416C9.42482 2.21547 8.94527 2.21547 8.3723 2.23416C8.35984 2.23416 8.35362 2.23416 8.34116 2.23416C8.28511 2.23416 8.26643 2.22793 8.26643 2.23416C8.26643 2.22793 8.2602 2.20302 8.26643 2.14697C8.28511 1.90408 8.27888 1.66119 8.27265 1.42453V1.31865C8.25397 0.577532 7.76819 0.0606147 7.08935 0.0606147C7.08935 0.0606147 7.08935 0.0606147 7.08312 0.0606147C6.41674 0.0606147 5.93096 0.577532 5.90605 1.31865C5.89982 1.574 5.88736 1.86048 5.90605 2.14697C5.91228 2.20302 5.90605 2.2217 5.90605 2.22793C5.89359 2.23416 5.86868 2.24038 5.78772 2.24038C5.57597 2.24038 5.36422 2.24038 5.15247 2.23416C4.67292 2.2217 4.16846 2.21547 3.67646 2.29021C2.02606 2.5331 0.761793 3.97174 0.736881 5.6346C0.724426 6.5065 0.724425 7.38464 0.730653 8.25655V9.35266V14.4346C0.730653 20.0833 0.730653 25.7321 0.730653 31.3808C0.730653 32.863 1.40327 33.9591 2.72358 34.6442C2.84191 34.7065 2.96647 34.7376 3.09103 34.775C3.2405 34.8124 3.38374 34.856 3.48962 34.9431L3.53321 34.9805H31.8702L31.8951 34.9681C32.0259 34.9182 32.1629 34.8746 32.2999 34.831C32.5615 34.7501 32.8355 34.6691 33.0909 34.5134C34.1621 33.8657 34.7475 32.9128 34.8347 31.6673C34.8409 31.5863 34.8409 31.4991 34.8409 31.4181V5.80898C34.8721 4.60076 34.4174 3.64166 33.5144 2.93791ZM3.09726 11.2522C3.09726 11.0965 3.12217 11.0529 3.1284 11.0467C3.14086 11.0342 3.19068 11.0155 3.34638 11.0155C13.2176 11.028 22.9643 11.0217 32.3062 11.0155C32.4556 11.0155 32.4868 11.0404 32.493 11.0467C32.5055 11.0591 32.5241 11.0965 32.5241 11.2459C32.5179 16.6954 32.5179 22.1386 32.5179 27.588V31.2189C32.5179 32.2029 32.1193 32.6077 31.1353 32.6077H4.50477C3.49585 32.6077 3.10349 32.2091 3.10349 31.2002V27.8184C3.10972 22.288 3.10972 16.7701 3.09726 11.2522ZM3.10349 5.86503C3.10349 4.99312 3.53321 4.56962 4.41135 4.5634C4.58573 4.5634 4.76011 4.5634 4.94072 4.5634C5.23966 4.5634 5.5386 4.5634 5.83754 4.55717C5.84377 4.55717 5.85 4.55717 5.85622 4.55717C5.90605 4.55717 5.92473 4.5634 5.92473 4.55717C5.92473 4.5634 5.93096 4.58208 5.93096 4.6319C5.9185 4.85611 5.92473 5.08654 5.92473 5.31074V5.41662C5.93096 5.83389 6.06797 6.18888 6.31709 6.42554C6.52884 6.63106 6.80909 6.73694 7.12049 6.73071C7.80556 6.71825 8.27265 6.18888 8.28511 5.41662V5.33566C8.29134 5.09277 8.29134 4.84365 8.28511 4.60076C8.28511 4.57585 8.28511 4.5634 8.28511 4.55717C8.29757 4.55717 8.31002 4.55717 8.34116 4.55717C8.80825 4.5634 9.35631 4.56962 9.90437 4.55717C9.91059 4.55717 9.91682 4.55717 9.92305 4.55717C9.95419 4.55717 9.97287 4.55717 9.9791 4.55717C9.9791 4.5634 9.98533 4.58831 9.98533 4.65059C9.97287 4.91216 9.9791 5.17373 9.98533 5.4353C9.99778 6.20756 10.4711 6.73071 11.1624 6.73694H11.1686C11.8475 6.73694 12.3333 6.20756 12.3457 5.44153C12.3519 5.15505 12.3519 4.87479 12.3457 4.58831C12.3457 4.56962 12.3457 4.55717 12.3457 4.55094C12.3519 4.55094 12.3582 4.55094 12.3706 4.55094C12.4142 4.55717 12.4578 4.55094 12.5076 4.55094H12.5575H14.7933C17.5585 4.55094 20.3299 4.55094 23.1013 4.54471H23.1075C23.2632 4.54471 23.3068 4.56962 23.3131 4.58208C23.3193 4.58831 23.3442 4.62567 23.3317 4.76269C23.3068 5.04294 23.3193 5.31697 23.3317 5.59723C23.3691 6.2387 23.8611 6.72448 24.4839 6.73071C24.4901 6.73071 24.4901 6.73071 24.4964 6.73071C25.1192 6.73071 25.6174 6.25739 25.6672 5.62214C25.6859 5.34188 25.6859 5.04917 25.6734 4.65681C25.6672 4.58208 25.6797 4.55717 25.6734 4.55717C25.6797 4.55717 25.6983 4.54471 25.7669 4.55094C26.2775 4.56962 26.782 4.56962 27.2616 4.55094C27.3363 4.55094 27.3612 4.55717 27.3612 4.55717C27.3612 4.5634 27.3737 4.58831 27.3674 4.68173C27.355 5.01803 27.355 5.3232 27.3737 5.60968C27.4173 6.25739 27.9093 6.73071 28.5383 6.73071C29.1486 6.73071 29.6531 6.26362 29.7091 5.64705C29.7403 5.30452 29.7278 4.96198 29.7216 4.61322C29.7216 4.57585 29.7216 4.55717 29.7216 4.55094C29.734 4.55094 29.7527 4.55094 29.7901 4.54471C30.0205 4.55094 30.2572 4.54471 30.4876 4.54471C30.7866 4.54471 31.0793 4.53848 31.372 4.55094C32.1006 4.57585 32.5241 5.01803 32.5241 5.75915C32.5241 6.08923 32.5241 6.41931 32.5241 6.74939C32.5241 7.32236 32.5179 7.8891 32.5304 8.46207C32.5304 8.59908 32.5117 8.62399 32.5117 8.63022C32.5117 8.63022 32.4868 8.65513 32.3435 8.65513C29.242 8.6489 26.1405 8.6489 23.039 8.6489C22.1671 8.6489 21.2952 8.6489 20.4295 8.6489H17.8138H15.1545C11.206 8.6489 7.26373 8.6489 3.32146 8.65513C3.17199 8.6489 3.13463 8.63645 3.1284 8.63022C3.12217 8.62399 3.10349 8.59285 3.10349 8.44961C3.12217 7.85796 3.11594 7.25385 3.11594 6.67466C3.10349 6.41308 3.10349 6.13906 3.10349 5.86503Z"
+                                        fill="white" />
+                                    <path
+                                        d="M17.8077 30.0729C17.8202 30.0729 17.8264 30.0729 17.8388 30.0729C22.3665 30.0729 26.0597 26.3797 26.0784 21.8333C26.0908 19.6349 25.2376 17.561 23.6806 15.9915C22.1174 14.4159 20.0373 13.5502 17.8264 13.544C17.8202 13.544 17.8077 13.544 17.8015 13.544C13.2862 13.544 9.58687 17.2309 9.54327 21.7773C9.52459 23.9508 10.3716 26.0185 11.9286 27.5941C13.5042 29.1823 15.5906 30.0666 17.8077 30.0729ZM11.9036 21.7773C11.9597 18.5201 14.6003 15.8919 17.7953 15.8919C17.8202 15.8919 17.8388 15.8919 17.8638 15.8919C21.1272 15.9293 23.7616 18.5948 23.7367 21.8333C23.7055 25.0905 21.0711 27.7187 17.8513 27.7187C17.8388 27.7187 17.8202 27.7187 17.8077 27.7187C16.2071 27.7062 14.7 27.0585 13.5727 25.9002C12.4642 24.7729 11.8725 23.3093 11.9036 21.7773Z"
+                                        fill="white" />
+                                    <path
+                                        d="M16.156 24.4242C16.4176 24.6858 16.7227 24.8103 17.0217 24.8103C17.3206 24.8103 17.6133 24.6858 17.8749 24.4304C18.7468 23.5647 19.6125 22.6991 20.4844 21.8272L21.4622 20.8431C21.7175 20.5878 21.8421 20.3013 21.8358 19.9712C21.8421 19.7097 21.7611 19.4668 21.5992 19.255C21.3874 18.981 21.0885 18.8191 20.7646 18.8004C20.4159 18.7817 20.0609 18.9249 19.7744 19.2052C18.8153 20.1518 17.9496 21.0175 17.1213 21.8583C17.0466 21.933 17.0217 21.9455 17.0217 21.9455C17.0217 21.9455 16.9968 21.9393 16.9345 21.8707C16.5733 21.4784 16.1934 21.1047 15.8321 20.7622C15.3215 20.2702 14.6052 20.2577 14.1319 20.731C13.6648 21.1981 13.6835 21.9268 14.1693 22.4313C14.8294 23.1101 15.4958 23.7827 16.156 24.4242Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                            <div class="pluses__slide-title">Scheduler</div>
+                            <div class="pluses__slide-text">No longer are the days of switching between different
+                                messaging platforms to connect with playlisters like yourself. Unlock a direct messaging
+                                line with the biggest curators around
+                                the globe!
+
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide pluses__slide">
+                            <div class="pluses__slide-img">
+                                <svg width="39" height="37" viewBox="0 0 39 37" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M24.3624 1.34637H4.09902C2.63854 1.34637 1.45312 2.53179 1.45312 3.99227V15.3356C1.45312 16.796 2.63854 17.9815 4.09902 17.9815H6.65978V24.1378L15.2458 17.9815H24.3558C25.8163 17.9815 27.0017 16.796 27.0017 15.3356V3.99227C27.0083 2.53179 25.8229 1.34637 24.3624 1.34637Z"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M14.5781 18.2893V26.5413C14.5781 28.0018 15.7635 29.1872 17.224 29.1872H23.603L32.4117 35.1208V29.1872H35.0052C36.4657 29.1872 37.6511 28.0018 37.6511 26.5413V15.198C37.6511 13.7375 36.4657 12.5521 35.0052 12.5521H27.0086"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                            <div class="pluses__slide-title">SongChat</div>
+                            <div class="pluses__slide-text">No longer are the days of switching between different
+                                messaging platforms to connect with playlisters like yourself. Unlock a direct messaging
+                                line with the biggest curators around
+                                the globe!</div>
+                        </div>
+
+                        <div class="swiper-slide pluses__slide">
+                            <div class="pluses__slide-img">
+                                <svg width="36" height="26" viewBox="0 0 36 26" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M31.638 0.757343L35.5746 5.41761C35.83 5.7172 35.8184 6.19654 35.5572 6.48947L31.6206 10.8235C31.2026 11.2829 30.5059 10.9434 30.5059 10.2776V1.28329C30.5059 0.60422 31.2258 0.271343 31.638 0.757343Z"
+                                        fill="white" />
+                                    <path
+                                        d="M1.0399 6.83149H30.5501C31.1094 6.83149 31.5568 6.42757 31.5568 5.93584V5.62558C31.5568 5.12799 31.1028 4.72992 30.5501 4.72992H1.0399C0.480626 4.72992 0.0332031 5.13384 0.0332031 5.62558V5.93584C0.0332031 6.43342 0.480626 6.83149 1.0399 6.83149Z"
+                                        fill="white" />
+                                    <path
+                                        d="M4.15492 25.5122L0.218424 20.8532C-0.0370425 20.5537 -0.02543 20.0745 0.235842 19.7816L4.17234 15.4488C4.59038 14.9896 5.2871 15.329 5.2871 15.9946V24.9864C5.29291 25.6652 4.56715 26.0047 4.15492 25.5122Z"
+                                        fill="white" />
+                                    <path
+                                        d="M34.7532 19.4409H5.24303C4.68375 19.4409 4.23633 19.8448 4.23633 20.3365V20.6468C4.23633 21.1444 4.69033 21.5424 5.24303 21.5424H34.7532C35.3125 21.5424 35.7599 21.1385 35.7599 20.6468V20.3365C35.7599 19.8389 35.3125 19.4409 34.7532 19.4409Z"
+                                        fill="white" />
+                                </svg>
+
+                            </div>
+                            <div class="pluses__slide-title">Trading</div>
+                            <div class="pluses__slide-text">Giving you the opportunity to connect with some of the
+                                biggest playlisters, and our platform will handle all the complexity of managing a trade
+                                for you. Grow your network of playlisters, save time, and find new tracks for your
+                                playlists, all in one place.
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide pluses__slide">
+                            <div class="pluses__slide-img"><svg width="35" height="33" viewBox="0 0 35 33" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.7698 5.9603H1.76754C1.15203 5.9603 0.648438 5.45671 0.648438 4.84121C0.648438 4.2257 1.15203 3.72211 1.76754 3.72211H20.7698C21.3853 3.72211 21.8889 4.2257 21.8889 4.84121C21.8889 5.45671 21.3909 5.9603 20.7698 5.9603Z"
+                                        fill="white" />
+                                    <path
+                                        d="M20.7698 14.4599H1.76754C1.15203 14.4599 0.648438 13.9563 0.648438 13.3408C0.648438 12.7253 1.15203 12.2217 1.76754 12.2217H20.7698C21.3853 12.2217 21.8889 12.7253 21.8889 13.3408C21.8889 13.9563 21.3909 14.4599 20.7698 14.4599Z"
+                                        fill="white" />
+                                    <path
+                                        d="M11.2687 22.9594H1.76754C1.15203 22.9594 0.648438 22.4558 0.648438 21.8403C0.648438 21.2248 1.15203 20.7212 1.76754 20.7212H11.2687C11.8842 20.7212 12.3878 21.2248 12.3878 21.8403C12.3878 22.4558 11.8898 22.9594 11.2687 22.9594Z"
+                                        fill="white" />
+                                    <path
+                                        d="M25.1523 28.6948C24.5368 28.6948 24.0332 28.1912 24.0332 27.5757V3.64942C24.0332 3.15701 24.3577 2.72057 24.8334 2.57508L33.1203 0.0962796C33.456 -0.00443931 33.8253 0.0627068 34.1107 0.26974C34.3961 0.476773 34.5639 0.812503 34.5639 1.16502V8.40559C34.5639 8.87001 34.273 9.28967 33.8365 9.45194L26.2714 12.3V27.5757C26.2714 28.1912 25.7734 28.6948 25.1523 28.6948ZM26.2714 4.48315V9.91077L32.3201 7.639V2.6758L26.2714 4.48315Z"
+                                        fill="white" />
+                                    <path
+                                        d="M19.3224 32.1529C15.4223 32.1529 12.3672 30.1945 12.3672 27.6989C12.3672 25.2033 15.4223 23.2449 19.3224 23.2449C23.2224 23.2449 26.2776 25.2033 26.2776 27.6989C26.272 30.1945 23.2168 32.1529 19.3224 32.1529ZM19.3224 25.4831C16.6254 25.4831 14.6054 26.6525 14.6054 27.6989C14.6054 28.7452 16.6198 29.9147 19.3224 29.9147C22.025 29.9147 24.0338 28.7452 24.0338 27.6989C24.0338 26.6525 22.0194 25.4831 19.3224 25.4831Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                            <div class="pluses__slide-title">Discover</div>
+                            <div class="pluses__slide-text">Our Discover page uses your current listening and curation
+                                tastes to recommend you the best emerging talent. Easily browse with different filters
+                                like Genres, Hot & Trending, and even a unique section tailored Just for You!</div>
+                        </div>
+
+                        <div class="swiper-slide pluses__slide">
+                            <div class="pluses__slide-img"><svg width="42" height="36" viewBox="0 0 42 36" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6.59799 34.1542H1.92841C1.39415 34.1542 0.957031 33.7171 0.957031 33.1828V26.5081C0.957031 25.9738 1.39415 25.5367 1.92841 25.5367H6.59105C7.12531 25.5367 7.56243 25.9738 7.56243 26.5081V33.1828C7.56937 33.7102 7.13225 34.1542 6.59799 34.1542Z"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10" />
+                                    <path
+                                        d="M17.5188 34.1542H12.8561C12.3219 34.1542 11.8848 33.7171 11.8848 33.1828V15.6425C11.8848 15.1082 12.3219 14.6711 12.8561 14.6711H17.5188C18.053 14.6711 18.4902 15.1082 18.4902 15.6425V33.1828C18.4971 33.7102 18.053 34.1542 17.5188 34.1542Z"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10" />
+                                    <path
+                                        d="M28.6496 34.1542H23.987C23.4527 34.1542 23.0156 33.7171 23.0156 33.1828V26.5081C23.0156 25.9738 23.4527 25.5367 23.987 25.5367H28.6496C29.1839 25.5367 29.621 25.9738 29.621 26.5081V33.1828C29.628 33.7102 29.1908 34.1542 28.6496 34.1542Z"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10" />
+                                    <path
+                                        d="M39.5774 34.1542H34.9147C34.3805 34.1542 33.9434 33.7171 33.9434 33.1828V15.6425C33.9434 15.1082 34.3805 14.6711 34.9147 14.6711H39.5774C40.1116 14.6711 40.5488 15.1082 40.5488 15.6425V33.1828C40.5488 33.7102 40.1116 34.1542 39.5774 34.1542Z"
+                                        stroke="white" stroke-width="1.86077" stroke-miterlimit="10" />
+                                    <path d="M4.26758 14.1368L15.1887 3.1532" stroke="white" stroke-width="1.86077"
+                                        stroke-miterlimit="10" />
+                                    <path d="M25.2891 13.6442L37.1191 3.63892" stroke="white" stroke-width="1.86077"
+                                        stroke-miterlimit="10" />
+                                    <path d="M27.2968 13.6442L15.4668 3.63892" stroke="white" stroke-width="1.86077"
+                                        stroke-miterlimit="10" />
+                                    <path
+                                        d="M4.26703 18.064C6.1447 18.064 7.66686 16.5419 7.66686 14.6642C7.66686 12.7865 6.1447 11.2643 4.26703 11.2643C2.38935 11.2643 0.867188 12.7865 0.867188 14.6642C0.867188 16.5419 2.38935 18.064 4.26703 18.064Z"
+                                        fill="white" />
+                                    <path
+                                        d="M15.4662 6.81677C17.3439 6.81677 18.8661 5.29461 18.8661 3.41693C18.8661 1.53925 17.3439 0.0170898 15.4662 0.0170898C13.5886 0.0170898 12.0664 1.53925 12.0664 3.41693C12.0664 5.29461 13.5886 6.81677 15.4662 6.81677Z"
+                                        fill="white" />
+                                    <path
+                                        d="M37.2455 6.81677C39.1232 6.81677 40.6454 5.29461 40.6454 3.41693C40.6454 1.53925 39.1232 0.0170898 37.2455 0.0170898C35.3679 0.0170898 33.8457 1.53925 33.8457 3.41693C33.8457 5.29461 35.3679 6.81677 37.2455 6.81677Z"
+                                        fill="white" />
+                                    <path
+                                        d="M26.2123 15.4968C28.09 15.4968 29.6122 13.9746 29.6122 12.0969C29.6122 10.2192 28.09 8.69708 26.2123 8.69708C24.3347 8.69708 22.8125 10.2192 22.8125 12.0969C22.8125 13.9746 24.3347 15.4968 26.2123 15.4968Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                            <div class="pluses__slide-title">Industry Tracker</div>
+                            <div class="pluses__slide-text">Get an exclusive daily outline of the playlisting industry,
+                                with notable news, and in-depth looks at the biggest playlisting brands! You can even
+                                browse music videos and add directly to your playlists!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Slider 2 -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs cta">
+                <div class="content content-container-text faq__text">...and so much more!‍</div>
+            </div>
+        </div>
+
+
+
+        <!-- Section FAQ -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs">
+                <div class="faqs-container">
+                    <div class="faqs-title">FAQ</div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="0aab139c-f04e-c7ae-92dc-7aab2867aaa2"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage do I get? </div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="a8249597-f141-e6fe-383d-eed9f96c149a"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What about security? Are my assets safe?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="c6a89faa-4d60-c056-1494-62d33b75bd03"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage to I get?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="fb08f65d-2ff4-5844-835b-ab6e84ba302d"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What kind of ads does it create?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Our AI will create various different ad creatives with the
+                                assets you upload and use multivariate testing in order to find a winning combination
+                                for your SongFly campaign. You can view our creative guidelines webpage to get examples
+                                of the ads that will be created.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="ead46db3-9f00-f5d0-0621-0046eecdeef5"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Does my content get deleted if I cancel my membership?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Your content will be held for 1 year after you cancel your
+                                membership, in case you decide to come back. After that point if you do not re-activate
+                                your membership, they will be deleted forever.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item last w-dropdown">
+                        <div data-w-id="5d3a6809-40f2-4797-601c-c04ed73f5edf"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Why is it better than Google Drive, Dropbox, and others?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav class="dropdown-list last w-dropdown-list">
+                            <div class="faq-item-content">We believe cloud storage is not “one-size fits all.” Music
+                                creators have different needs, and we’ve created a home for your content that’s
+                                streamlined around those needs. Our dashboard has a place for your song’s audio files,
+                                press photos, promo videos, and keeps them safe, so you can easily access them from
+                                anywhere in the future. Plus; we are the only storage solution that integrates directly
+                                with your marketing platform!</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!-- Footer -->
+    <footer>
+        <div class="ui-plc-footer">
+            <div class="ui-plc-footer-container">
+                <div class="nav-row">
+                    <div class="plc-logo"></div>
+                    <div class="nav-items">
+                        <a href="#" class="footer-link">Company</a>
+                        <a href="#" class="footer-link">Products</a>
+                        <a href="#" class="footer-link">Help Center</a>
+                        <a href="#" class="footer-link">Contact Us</a>
+                    </div>
+                </div>
+                <div class="sub-nav-row">
+                    <div class="legal-section">
+                        <div class="disclaimer">
+                            <div class="disclaimer-txt">© 2022 Playlister.Club. All rights reserved.</div>
+                        </div>
+                        <div class="legal-nav">
+                            <a href="#" class="legal-link">Terms of Use</a>
+                            <a href="#" class="legal-link">Privacy Policy</a>
+                        </div>
+                    </div>
+                    <div class="social-section">
+                        <a href="#" class="social-icon sp w-inline-block"></a>
+                        <a href="#" class="social-icon ig w-inline-block"></a>
+                        <a href="#" class="social-icon tt w-inline-block"></a>
+                        <a href="#" class="social-icon fb w-inline-block"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6335ed502413626f48003b57"
+        type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+    <script src="./js/plc-songtools.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="./js/main.js"></script>
+
+    <script>
+        var submenus = []
+        var parents = []
+        function existsParent(id) {
+            position = -1
+            for (var i = 0; i < parents.length; i++) {
+                if (id == parents[i].Id) {
+                    position = i
+                }
+            }
+            return (position > -1)
+        }
+        function searchParent(id, arr) {
+            for (var i = 0; i < arr.length; i++) {
+                if (id == arr[i].Id) {
+                    position = i
+                }
+            }
+            return arr[position]
+        }
+        $.get('https://api.playlister.club/data/pc/playlists/getmenuitems', function (data) {
+            $.each(data, function (key, value) {
+                if (value.ParentId == 0) {
+                    $("#navbars ul#main-navbar").append('<li class="nav-item mx-md-2" id="nav-item-' +
+                        value.Id + '"><a href="' + value.URL + '" >' + value.Name +
+                        '</a></li>')
+                } else {
+                    submenus.push(value)
+                    if (!existsParent(value.ParentId)) {
+                        parents.push(searchParent(value.ParentId, data))
+                    }
+                }
+            })
+            for (var i = 0; i < parents.length; i++) {
+                $('#nav-item-' + parents[i].Id).addClass('dropdown')
+                //$('#nav-item-' + parents[i].Id).append('<div class="position-relative"><a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink-' + parents[i].Id + '" role="button" data-bs-toggle="dropdown" aria-expanded="false">' + parents[i].Name + '</a> <ul class="dropdown-menu dropdown-menu-dark" id="sub-menu-features-' + parents[i].Id + '" aria-labelledby="navbarDarkDropdownMenuLink-' + parents[i].Id + '"></ul></div>');
+                $('#nav-item-' + parents[i].Id).html(
+                    "<a class='dropdown-toggle' href='#'' id='navbarDarkDropdownMenuLink-" +
+                    parents[i].Id + "' role='button' data-bs-toggle='dropdown' aria-expanded='false'>" +
+                    parents[i].Name +
+                    "</a> <ul class='dropdown-menu dropdown-menu-dark' id='sub-menu-features-" + parents[i]
+                        .Id + "' aria-labelledby='navbarDarkDropdownMenuLink-" + parents[i].Id +
+                    "'></ul>")
+            }
+            for (var i = 0; i < submenus.length; i++) {
+                $("#sub-menu-features-" + submenus[i].ParentId).append(
+                    "<li role='presentation' class='' id='nav-item-" + submenus[i].Id + "'><a href='" +
+                    submenus[i].URL + "' class='dropdown-item'>" + submenus[i].Name + "</a></li>")
+            }
+            $.each(data, function (key, value) {
+                if (value.ParentId == 6) {
+                    var o = new Option(value.Name, value.URL)
+                    $("#sub-menu-features").append('<li role="presentation" class="" id="nav-item-' +
+                        value.Id + '"><a href="' + value.URL + ' " class="dropdown-item">' + value
+                            .Name + '</a></li>')
+                }
+            })
+        });
+    </script>
+</body>
+
+</html>

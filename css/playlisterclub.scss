@@ -1,0 +1,1174 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
+// =============================== PLAYLISTERCLUB ===============================
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+.container__club {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.section__title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 52px;
+    color: #ffffff;
+    @media (max-width: 992px) {
+        font-size: 30px;
+        line-height: 52px;
+    }
+    @media (max-width: 768px) {
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    &.title__center {
+        text-align: center;
+        color: black;
+    }
+}
+.club__btn {
+    display: inline-block;
+    background: #61c1b6;
+    border-radius: 100px;
+    padding: 18px 40px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 83%;
+    text-align: center;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s background;
+    &:hover {
+        background: darken($color: #61c1b6, $amount: 10);
+        color: white;
+    }
+}
+.faq__text {
+    @media (max-width: 480px) {
+        font-size: 22px;
+        padding: 0 10px;
+    }
+}
+// =============================== Main artist/playlister ===============================
+.main__content {
+    display: none;
+    animation: fade 0.5s linear;
+    &.active {
+        display: block;
+    }
+}
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+// =============================== Hero ===============================
+.club {
+    // .club__item
+    &__item {
+        max-width: 550px;
+        @media (max-width: 992px) {
+            max-width: 420px;
+        }
+    }
+    // .club__title
+    &__title {
+    }
+    // .club__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 26px;
+        color: #ffffff;
+        margin-top: 25px;
+        @media (max-width: 992px) {
+            font-size: 18px;
+            line-height: 26px;
+        }
+        @media (max-width: 768px) {
+            font-size: 16px;
+            line-height: 22px;
+            margin-top: 20px;
+        }
+    }
+    // .club__buttons
+    &__buttons {
+        margin-top: 40px;
+        border: 1px solid #b5b3b3;
+        border-radius: 20px;
+        max-width: fit-content;
+        position: relative;
+        z-index: 1;
+        &.active {
+            .buttons__cover {
+                right: 0;
+                left: 50%;
+            }
+        }
+        .buttons__cover {
+            position: absolute;
+            transition: 0.3s all;
+            left: -1px;
+            top: -1px;
+            bottom: -1px;
+            right: 50%;
+            background: #61c1b6;
+            border-radius: 20px;
+            z-index: -1;
+            width: 50%;
+        }
+
+        @media (max-width: 768px) {
+            margin-top: 30px;
+        }
+    }
+    // .club__button
+    &__button {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 83%;
+        text-align: center;
+        text-transform: capitalize;
+        color: #a9a8a8;
+        padding: 13px !important;
+        margin: 0;
+        border-radius: 20px;
+        background: transparent;
+        border: 1px solid transparent;
+        cursor: pointer;
+        z-index: 1;
+        @media (max-width: 768px) {
+            font-size: 10px;
+            line-height: 1;
+            padding: 10px !important;
+        }
+        &.active {
+            color: #ffffff;
+        }
+    }
+    // .club__copy
+    &__copy {
+        font-style: italic;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 83%;
+        color: #ffffff;
+        margin-top: 100px;
+        @media (max-width: 992px) {
+            font-size: 14px;
+            line-height: 83%;
+        }
+        @media (max-width: 768px) {
+            font-size: 12px;
+            line-height: 140%;
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+        }
+        @media (max-width: 500px) {
+            font-size: 12px;
+            line-height: 140%;
+            position: absolute;
+            bottom: -470px;
+            left: 0;
+        }
+        a {
+            text-decoration-line: underline;
+            color: #22d3c2;
+        }
+    }
+}
+// =============================== How ================================
+.section {
+    // .section__how
+    &__how {
+        padding: 80px 0;
+
+        @media (max-width: 992px) {
+            padding: 50px 0;
+        }
+    }
+}
+.how {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 100px;
+    justify-content: center;
+
+    @media (max-width: 1400px) {
+        gap: 50px;
+    }
+
+    // .how__item
+    &__item {
+        flex: 0 1 297px;
+
+        @media (max-width: 1200px) {
+            flex: 0 1 30%;
+        }
+
+        @media (max-width: 992px) {
+            flex: 0 1 45%;
+        }
+
+        @media (max-width: 768px) {
+            flex: 0 1 100%;
+        }
+    }
+
+    // .how__img
+    &__img {
+        height: 75px;
+
+        .last {
+            margin-top: -20px;
+
+            @media (max-width: 992px) {
+                margin-top: -10px;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            height: 50px;
+
+            img {
+                max-width: 75px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            height: 70px;
+
+            img {
+                max-width: 70px;
+            }
+        }
+        @media (max-width: 768px) {
+            // height: 60px;
+            margin-bottom: 15px;
+            img {
+                max-width: 60px;
+            }
+        }
+    }
+
+    // .how__title
+    &__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 26px;
+        color: #000000;
+        margin-top: 35px;
+
+        @media (max-width: 1400px) {
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 992px) {
+            font-size: 18px;
+            line-height: 26px;
+            margin-top: 30px;
+        }
+        @media (max-width: 768px) {
+            font-size: 16px;
+            line-height: 20px;
+            margin-top: 0;
+            br {
+                display: none;
+            }
+        }
+    }
+
+    // .how__text
+    &__text {
+        font-style: normal;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        margin-top: 30px;
+        color: black;
+
+        @media (max-width: 1400px) {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 992px) {
+            font-size: 14px;
+            line-height: 22px;
+        }
+        @media (max-width: 768px) {
+            font-size: 14px;
+            line-height: 19px;
+            margin-top: 20px;
+        }
+    }
+}
+// ============================ Statistic =============================
+.section {
+    // .section__statistic
+    &__statistic {
+        overflow: hidden;
+        padding: 100px 0 180px 0;
+        background: url('../img/playlister-club/covers-bg-img.png') center /
+            cover no-repeat;
+        z-index: -1;
+        background-position: 105% 100%, 0px 0px, 50% 50%;
+        background-size: 60vw, auto, cover;
+        background-repeat: no-repeat, repeat, no-repeat;
+        background-attachment: scroll, scroll, fixed;
+        @media (max-width: 992px) {
+        }
+        @media (max-width: 768px) {
+            padding: 80px 0;
+        }
+    }
+}
+.statistic {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+    }
+    // .statistic__item
+    &__item {
+        &.left__item {
+            flex: 0 1 650px;
+            align-items: center;
+            @media (max-width: 768px) {
+                flex: 0 1 100%;
+            }
+        }
+        &.right__item {
+            flex: 0 1 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            @media (max-width: 768px) {
+                flex: 0 1 100%;
+            }
+        }
+    }
+    // .statistic__text
+    &__text {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 30px;
+        line-height: 50px;
+        color: #ffffff;
+        margin-top: 50px;
+        max-width: 650px;
+        @media (max-width: 992px) {
+            font-size: 24px;
+            line-height: 50px;
+        }
+        @media (max-width: 768px) {
+            font-size: 22px;
+            line-height: 35px;
+            margin-top: 35px;
+        }
+        span {
+            color: #ff1241;
+            @media (max-width: 992px) {
+                font-size: 35px;
+                line-height: 50px;
+            }
+            @media (max-width: 768px) {
+                font-size: 30px;
+            }
+        }
+    }
+    // .statistic__subtext
+    &__subtext {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #ffffff;
+        @media (max-width: 768px) {
+            font-size: 17.5312px;
+            line-height: 20px;
+            margin-top: 30px;
+        }
+    }
+    // .statistic__price
+    &__price {
+        filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.6));
+        border: 2px solid #ff1241;
+        border-radius: 10px;
+        padding: 30px 30px 20px 30px;
+        margin-top: 22px;
+        @media (max-width: 768px) {
+            padding: 10px 14px;
+        }
+    }
+    // .statistic__price-item
+    &__price-item {
+        font-style: normal;
+        font-weight: 700;
+        color: #ffffff;
+        font-size: 20px;
+        line-height: 20px;
+        text-align: center;
+        @media (max-width: 768px) {
+            font-size: 13.9868px;
+            line-height: 6px;
+        }
+        span {
+            font-size: 60px;
+            line-height: 40px;
+            @media (max-width: 992px) {
+                font-size: 63px;
+            }
+            @media (max-width: 768px) {
+                line-height: 1;
+                font-size: 44px;
+            }
+        }
+        small {
+            font-size: 30px;
+            line-height: 40px;
+            @media (max-width: 992px) {
+                font-size: 39px;
+            }
+            @media (max-width: 768px) {
+                line-height: 1;
+                font-size: 27px;
+            }
+
+            &.small__free {
+                font-size: 49.2px;
+                margin-top: 3px;
+                @media (max-width: 992px) {
+                    font-size: 39px;
+                }
+                @media (max-width: 768px) {
+                    line-height: 1;
+                    font-size: 27px;
+                }
+            }
+        }
+    }
+}
+// ============================= Measure ==============================
+.section {
+    // .section__measure
+    &__measure {
+        padding: 120px 0 205px 0;
+        background: url('../img/playlister-club/measure__bg.jpg') center / cover
+            no-repeat;
+        @media (max-width: 992px) {
+            padding: 85px 0 160px 0;
+        }
+        @media (max-width: 768px) {
+            padding: 60px 0 90px 0;
+        }
+    }
+}
+.measure {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+    }
+    // .measure__item
+    &__item {
+        &.left {
+            // .left__item
+            &__item {
+                flex: 0 1 750px;
+                @media (max-width: 992px) {
+                    flex: 0 1 450px;
+                }
+                @media (max-width: 768px) {
+                    flex: 0 1 100%;
+                }
+
+                .measure__img-mob {
+                    display: none;
+                    @media (max-width: 768px) {
+                        display: block;
+                        margin: 0 auto;
+                        max-width: 100%;
+                    }
+                }
+            }
+        }
+        &.right {
+            // .right__item
+            &__item {
+                @media (max-width: 768px) {
+                    display: none;
+                }
+                img {
+                    max-width: 100%;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+    // .measure__title
+    &__title {
+        @media (max-width: 992px) {
+            font-size: 30px;
+            line-height: 40px;
+        }
+        span {
+            color: #ff1241;
+        }
+    }
+    // .measure__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 20px;
+        line-height: 33px;
+        color: #ffffff;
+        margin-top: 20px;
+        @media (max-width: 992px) {
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+    // .measure__btn
+    &__btn {
+        margin-top: 40px;
+        @media (max-width: 768px) {
+            display: flex;
+            justify-content: center;
+            margin-top: 0;
+        }
+    }
+}
+.satisfied {
+    padding: 50px 20px;
+    // .satisfied__btn
+    &__btn {
+        display: flex;
+        max-width: fit-content;
+        margin: 0 auto;
+        margin-top: 35px;
+        gap: 4px;
+        @media (max-width: 768px) {
+            gap: 0;
+            span {
+                display: none;
+            }
+        }
+    }
+}
+// =============================== Reviews ===============================
+.section {
+    // .section__reviews
+    &__reviews {
+        background: #f8f8fc;
+        padding: 100px 0;
+        position: relative;
+        @media (max-width: 768px) {
+            padding: 75px 0;
+        }
+    }
+    // .section__title
+    &__title {
+        &.reviews__title {
+            background: #f8f8fc;
+            position: absolute;
+            top: -75px;
+            padding: 60px;
+            border-radius: 20px;
+            max-width: 1200px;
+            width: 100%;
+            @media (max-width: 1200px) {
+                left: 20px;
+                right: 20px;
+                width: auto;
+                padding: 40px;
+            }
+            @media (max-width: 768px) {
+                padding: 30px 10px;
+                top: -25px;
+            }
+        }
+    }
+}
+.reviews {
+    border-radius: 18px;
+    background: #f8f8fc;
+    padding: 0 75px;
+    display: flex;
+    justify-content: center;
+    @media (max-width: 768px) {
+        padding: 0;
+        margin-top: 30px;
+    }
+    // .reviews__slider
+    &__slider {
+        margin-top: 30px;
+        max-width: 1050px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    // .reviews__slide
+    &__slide {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 40px 30px;
+        height: auto;
+        // flex: 0 0 330px;
+    }
+}
+.review {
+    // .review__quote
+    &__quote {
+    }
+    // .review__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 25px;
+        color: #000000;
+        margin-top: 20px;
+        @media (max-width: 992px) {
+            font-weight: 300;
+            font-size: 13.0852px;
+        }
+    }
+    // .review__info
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    // .review__info-item
+    &__info-item {
+    }
+    // .review__avatar
+    &__avatar {
+        width: 65px;
+        height: 65px;
+        img {
+            border-radius: 15px;
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+        }
+    }
+    // .review__name
+    &__name {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        color: #000000;
+    }
+    // .review__position
+    &__position {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        color: #000000;
+        margin-top: -4px;
+    }
+}
+
+// =============================== Pluses ===============================
+.section {
+    // .section__pluses
+    &__pluses {
+        padding: 120px 0;
+        background: url('../img/playlister-club/pluses__bg-black.jpg') center /
+            cover no-repeat;
+
+        @media (max-width: 992px) {
+            padding: 75px 0;
+        }
+    }
+}
+.title__pluses {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 50px;
+    display: flex;
+    color: #ffffff;
+    justify-content: center;
+    padding: 0 20px;
+    @media (max-width: 992px) {
+        font-size: 24px;
+        line-height: 40px;
+    }
+}
+.pluses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1142px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 200px;
+
+    &.pluses__pc {
+        @media (max-width: 992px) {
+            display: none;
+        }
+    }
+    @media (max-width: 1200px) {
+        max-width: 860px;
+        margin-top: 100px;
+    }
+    // .pluses__item
+    &__item {
+        flex: 0 1 282px;
+        display: flex;
+        flex-direction: column;
+        @media (max-width: 1200px) {
+            flex: 0 0 207px;
+        }
+
+        &:nth-child(1) {
+            align-items: flex-end;
+            text-align: right;
+        }
+        &:nth-child(2) {
+            flex: 0 1 450px;
+            margin-top: -145px;
+            @media (max-width: 1200px) {
+                flex: 0 0 350px;
+                margin-top: -75px;
+            }
+        }
+        &:nth-child(4) {
+            align-items: flex-end;
+            text-align: right;
+            margin-left: 60px;
+            margin-top: -20px;
+            @media (max-width: 1200px) {
+                margin-left: 50px;
+                margin-top: -10px;
+            }
+        }
+        &:nth-child(5) {
+            align-items: center;
+            text-align: center;
+            margin-top: 60px;
+            @media (max-width: 1200px) {
+                margin-top: 50px;
+            }
+        }
+        &:nth-child(6) {
+            margin-right: 60px;
+            margin-top: -20px;
+            @media (max-width: 1200px) {
+                margin-right: 50px;
+                margin-top: -10px;
+            }
+        }
+    }
+    // .pluses__img
+    &__img {
+        width: 112px;
+        height: 112px;
+        background: #2f2f2f;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        @media (max-width: 1200px) {
+            width: 80px;
+            height: 80px;
+            padding: 23px;
+        }
+        svg {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+        }
+    }
+    // .pluses__title
+    &__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 30px;
+        color: #ffffff;
+        margin-top: 11px;
+        @media (max-width: 1200px) {
+            font-size: 18px;
+            line-height: 22px;
+            margin-top: 7px;
+        }
+    }
+    // .pluses__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 20px;
+        color: #ffffff;
+    }
+    // .pluses__image
+    &__image {
+    }
+}
+.pluses {
+    // .pluses__mob
+    &__mob {
+        display: none;
+        @media (max-width: 992px) {
+            display: block;
+        }
+
+        .swiper-slide-active {
+            opacity: 1;
+        }
+    }
+    // .pluses__mob-img
+    &__mob-img {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+        img {
+            max-width: 270px;
+        }
+    }
+    // .pluses__slide
+    &__slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.5;
+    }
+    // .pluses__slide-img
+    &__slide-img {
+        width: 112px;
+        height: 112px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background: #2f2f2f;
+        border-radius: 100%;
+    }
+    // .pluses__slide-title
+    &__slide-title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 30px;
+        text-align: center;
+        color: #ffffff;
+        margin-top: 10px;
+    }
+    // .pluses__slide-text
+    &__slide-text {
+        margin-top: 10px;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        color: #ffffff;
+    }
+}
+
+// =============================== SONGTOOLS ===============================
+// =============================== Welcome ===============================
+.section {
+    // .section__welcome
+    &__welcome {
+        padding: 0 0 80px 0;
+    }
+}
+.welcome {
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+    // .welcome__title
+    &__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        text-align: center;
+        color: #000000;
+        max-width: 550px;
+        margin: 0 auto;
+        @media (max-width: 992px) {
+            font-size: 30px;
+            line-height: 40px;
+        }
+        @media (max-width: 768px) {
+            font-size: 26px;
+            line-height: 32px;
+        }
+        span {
+            color: #ff1241;
+        }
+    }
+    // .welcome__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 25px;
+        text-align: center;
+        margin-top: 35px;
+        color: #000000;
+        @media (max-width: 992px) {
+            font-size: 16px;
+        }
+        span {
+            color: #ff1241;
+        }
+    }
+}
+// ================================ Tools ================================
+.section {
+    // .section__tools
+    &__tools {
+        background: #fbfbfe;
+        padding: 100px 0 200px 0;
+        @media (max-width: 768px) {
+            padding: 75px 0;
+        }
+    }
+}
+.tools {
+    max-width: 940px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    padding: 0 20px;
+    @media (max-width: 992px) {
+        gap: 75px;
+    }
+}
+.tool {
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+    }
+    &:nth-child(even) {
+        flex-direction: row-reverse;
+        @media (max-width: 768px) {
+            flex-wrap: wrap;
+        }
+    }
+    // .tool__item
+    &__item {
+        flex: 0 1 45%;
+        @media (max-width: 768px) {
+            flex: 0 1 100%;
+            &.image__item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+    // .tool__logo
+    &__logo {
+    }
+    // .tool__title
+    &__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 25px;
+        color: #000000;
+        margin-top: 35px;
+        @media (max-width: 992px) {
+            font-size: 18px;
+            line-height: 25px;
+        }
+        @media (max-width: 768px) {
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+    // .tool__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 25px;
+        color: #000000;
+        margin-top: 20px;
+        @media (max-width: 992px) {
+            font-size: 14px;
+            line-height: 25px;
+        }
+        @media (max-width: 768px) {
+            font-size: 14px;
+            line-height: 19px;
+            margin-top: 15px;
+        }
+    }
+    // .tool__link
+    &__link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 35px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 100%;
+        color: #61c1b6;
+        text-decoration: none;
+        transition: 0.3s transform;
+        &:hover {
+            transform: translateX(10px);
+            color: #61c1b6;
+        }
+        @media (max-width: 768px) {
+            margin-top: 15px;
+        }
+    }
+    // .tool__img
+    &__img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        display: flex;
+        @media (max-width: 768px) {
+            margin-top: 40px;
+        }
+    }
+}
+
+// ================================ Song ================================
+.section {
+    // .section__song
+    &__song {
+        padding: 0 20px 120px 20px;
+    }
+}
+.song {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 70px 120px;
+    background: #000000 url('../img/songtools/song__bg.png') left / cover
+        no-repeat;
+    border-radius: 22px;
+    position: relative;
+    .song__img {
+        position: absolute;
+        right: 90px;
+        top: -70px;
+        @media (max-width: 1200px) {
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+            right: 60px;
+            top: -40px;
+        }
+        @media (max-width: 768px) {
+            top: unset;
+            right: unset;
+            left: 50%;
+            bottom: -90px;
+            transform: translate(-50%, 0);
+        }
+    }
+
+    @media (max-width: 1200px) {
+        padding: 50px 80px;
+    }
+    @media (max-width: 768px) {
+        padding: 50px 20px 250px 20px;
+        background-position: center;
+    }
+    // .song__item
+    &__item {
+        max-width: 520px;
+        width: 100%;
+        @media (max-width: 992px) {
+            max-width: 370px;
+        }
+        @media (max-width: 768px) {
+            max-width: 100%;
+        }
+    }
+    // .song__title
+    &__title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 50px;
+        color: #ffffff;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+            line-height: 36px;
+        }
+        @media (max-width: 768px) {
+            font-size: 24px;
+            line-height: 36px;
+            text-align: center;
+        }
+    }
+    // .song__text
+    &__text {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 25px;
+        color: #ffffff;
+        margin-top: 26px;
+        @media (max-width: 1200px) {
+            font-size: 14px;
+            line-height: 18px;
+            margin-top: 18px;
+        }
+        @media (max-width: 768px) {
+            font-size: 14px;
+            line-height: 19px;
+            text-align: center;
+        }
+    }
+
+    // .song__btn
+    &__btn {
+        margin-top: 40px;
+        @media (max-width: 1200px) {
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            margin: 0 auto;
+            display: flex;
+            max-width: fit-content;
+            margin-top: 30px;
+            font-size: 12.7776px;
+            line-height: 100%;
+            padding: 10px 20px;
+        }
+    }
+}

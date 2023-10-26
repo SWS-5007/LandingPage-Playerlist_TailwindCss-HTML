@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="783px" height="346px" viewBox="0 0 783 346" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>browser-frame 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="browser-frame" transform="translate(0.341700, 0.430200)">
+            <g id="Group" opacity="0.8">
+                <path d="M-3.55271368e-15,11.3396 C-3.55271368e-15,5.0769 5.0769,-1.42108547e-14 11.3396,-1.42108547e-14 L770.3183,-1.42108547e-14 C776.5813,-1.42108547e-14 781.6583,5.0769 781.6583,11.3396 L781.6583,333.8848 C781.6583,340.1478 776.5813,345.2238 770.3183,345.2238 L11.3396,345.2238 C5.077,345.2238 -3.55271368e-15,340.1478 -3.55271368e-15,333.8848 L-3.55271368e-15,11.3396 Z" id="Path" fill-opacity="0.8" fill="#000000" fill-rule="nonzero" opacity="0.655598958"></path>
+                <path d="M11.3396,0.9807 L770.3183,0.9807 C776.0393,0.9807 780.6773,5.6185 780.6773,11.3396 L780.6773,333.8848 C780.6773,339.6058 776.0393,344.2438 770.3183,344.2438 L11.3396,344.2438 C5.6186,344.2438 0.9808,339.6058 0.9808,333.8848 L0.9808,11.3396 C0.9808,5.6185 5.6186,0.9807 11.3396,0.9807 Z" id="Path" stroke="#FFFFFF" stroke-width="1.9615"></path>
+            </g>
+            <g id="Clipped" transform="translate(2.006700, 1.764087)">
+                <line x1="-3.15798949e-16" y1="33.244413" x2="777.6516" y2="32.805713" id="Path" stroke="#FFFFFF" stroke-width="2" opacity="0.8"></line>
+                <rect id="Rectangle" stroke="#FFFFFF" x="121.4996" y="9.74441297" width="328" height="12" rx="2.5"></rect>
+                <circle id="Oval" stroke="#FFFFFF" opacity="0.8" cx="23.5" cy="16.744413" r="4"></circle>
+                <circle id="Oval" stroke="#FFFFFF" opacity="0.8" cx="37.5" cy="16.744413" r="4"></circle>
+                <circle id="Oval" stroke="#FFFFFF" opacity="0.8" cx="51.5" cy="16.744413" r="4"></circle>
+                <path d="M779.9996,9.60952033 L779.9996,332.879502 C779.9996,336.061054 778.694533,338.937472 776.591316,341.000636 L430.62949,341.000636 L263.136137,-1.10174616e-15 L774.71526,-1.10174616e-15 C777.891174,2.01430729 779.9996,5.56522752 779.9996,9.60952033 Z" id="Path" fill-opacity="0.2" fill="#FFFFFF" fill-rule="nonzero" opacity="0.2"></path>
+            </g>
+        </g>
+    </g>
+</svg>
